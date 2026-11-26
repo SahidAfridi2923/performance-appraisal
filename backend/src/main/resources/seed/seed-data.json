@@ -1,0 +1,1064 @@
+{
+ "levels": [
+  {
+   "name": "Junior",
+   "skipTlReview": false
+  },
+  {
+   "name": "Senior",
+   "skipTlReview": false
+  },
+  {
+   "name": "Team Lead",
+   "skipTlReview": true
+  }
+ ],
+ "settings": {
+  "commonWeight": 0.4,
+  "roleWeight": 0.6,
+  "selfWeight": 0.1,
+  "peerWeight": 0.2,
+  "tlWeight": 0.3,
+  "managerWeight": 0.4
+ },
+ "ratingBands": [
+  {
+   "label": "Unsatisfactory",
+   "minScore": 0
+  },
+  {
+   "label": "Needs Improvement",
+   "minScore": 3
+  },
+  {
+   "label": "Meets Expectations",
+   "minScore": 5
+  },
+  {
+   "label": "Exceeds Expectations",
+   "minScore": 7
+  },
+  {
+   "label": "Outstanding",
+   "minScore": 9
+  }
+ ],
+ "scaleLabels": [
+  {
+   "value": 10,
+   "label": "Exceptional - clearly beyond expectations, every time"
+  },
+  {
+   "value": 9,
+   "label": "Outstanding - always meets, often beyond"
+  },
+  {
+   "value": 8,
+   "label": "Very good - usually exceeds expectations"
+  },
+  {
+   "value": 7,
+   "label": "Good - usually meets, sometimes exceeds"
+  },
+  {
+   "value": 6,
+   "label": "Satisfactory - meets expectations most of the time"
+  },
+  {
+   "value": 5,
+   "label": "Fair - meets expectations about half the time"
+  },
+  {
+   "value": 4,
+   "label": "Below expectations - misses often"
+  },
+  {
+   "value": 3,
+   "label": "Poor - misses most of the time"
+  },
+  {
+   "value": 2,
+   "label": "Very poor - rarely meets expectations"
+  },
+  {
+   "value": 1,
+   "label": "Unacceptable - never meets expectations"
+  }
+ ],
+ "pickLists": {
+  "SITUATION": [
+   "Owned start to finish",
+   "Started, then handed over",
+   "Took over and completed",
+   "Supported / contributed",
+   "Paused - management re-prioritised"
+  ],
+  "BUSINESS_IMPACT": [
+   "High - client, revenue, compliance or patient safety",
+   "Medium - product or team delivery",
+   "Low - internal convenience"
+  ]
+ },
+ "teams": [
+  {
+   "code": "CA",
+   "name": "CA (Clinical Analyst)",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "How well does the employee research, analyse, document the business requirements?",
+       "weight": 0.75,
+       "reviewedBy": "ALL",
+       "guidance": ""
+      },
+      {
+       "text": "How clear and complete are the requirement documents prepared by the employee?",
+       "weight": 0.67,
+       "reviewedBy": "ALL",
+       "guidance": ""
+      },
+      {
+       "text": "How well does the employee keep requirement documents up to date when requirements change?",
+       "weight": 0.58,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How often does the employee get requirement documents peer reviewed before handover, as the process requires?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How good are the peer review ratings the employee's work receives from the CA team and leads?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How thoroughly does the employee validate requirements with stakeholders before development?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How well do the employee's requirements avoid gaps (requirement or functional) found after moving to production?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How consistently does the employee deliver assigned work within agreed timelines?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How thoroughly does the employee validate requirements before they move to production?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How well does the employee contribute through hands-on testing in major projects?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      },
+      {
+       "text": "How well does the employee contribute to resolving support tickets?",
+       "weight": 1.0,
+       "reviewedBy": "ALL",
+       "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Core CA work over the whole period.\nHow to decide: Pick the number that best fits the employee over the whole period."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "DESIGN",
+   "name": "Design (UI/UX)",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Design rework due to design faults",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5% or less; 7-8 = 6% to 10%; 5-6 = 11% to 15%; 3-4 = 16% to 20%; 1-2 = More than 20%\nEvidence: Designs sent back because of the designer's own errors (not changed requirements). Evidence: Lead notes the reason for each rework\nHow to decide: Designs with fault-related rework / designs delivered: <=5% = 5, <=10% = 4, <=15% = 3, <=20% = 2, >20% = 1"
+      },
+      {
+       "text": "Design consistency",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Screens that use the agreed colours, fonts and components. Evidence: Lead samples 10 screens from the Figma file against the style list\nHow to decide: Consistent screens / screens sampled"
+      },
+      {
+       "text": "Requirement-to-design coverage",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: CA requirement items that appear in the delivered design. Evidence: Walk the CA requirement list against the design file\nHow to decide: Items covered / items in requirement"
+      },
+      {
+       "text": "Developer clarification queries",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 1 round or fewer; 7-8 = About 2 rounds; 5-6 = About 3 rounds; 3-4 = About 4 rounds; 1-2 = More than 4 rounds\nEvidence: Average number of queries Dev/Mobile raised per design handed over. Evidence: Lead/coordinator counts queries from Dev/Mobile for 3 recent designs\nHow to decide: Average queries per design: 1 or fewer = 5, about 2 = 4, about 3 = 3, about 4 = 2, more than 4 = 1"
+      },
+      {
+       "text": "First-review approval",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Designs approved by stakeholders at first review. Evidence: Lead notes outcome of each review\nHow to decide: Designs approved at first review / designs reviewed"
+      },
+      {
+       "text": "Accessibility & usability checklist",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Designs passing a 5-point check: contrast, tap/click size, labels, error/empty states, responsive. Evidence: Lead samples designs against the checklist\nHow to decide: Designs passing at least 4 of 5 / designs checked"
+      },
+      {
+       "text": "Design file hygiene (handoff)",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Figma files named, organised and with specs ready for developers. Evidence: Lead opens 3 files\nHow to decide: 5 = developers need no help; 3 = minor gaps; 1 = files unusable without the designer (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Design-related defects after build",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Defects from QA/UAT/production that trace to design errors. Evidence: Bug list, Cause = Design\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "API",
+   "name": "API Development",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Code quality",
+       "weight": 0.07,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Clean, secure, maintainable code. Evidence: Lead reviews 3 recent merge requests against a 5-item checklist (naming, no duplication, error handling, validation/security, logging)\nHow to decide: Average checklist items met: 5 = all 5, 4 = 4, 3 = 3, 2 = 2, 1 = 0-1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "API design",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Consistent, well-structured endpoints. Evidence: Lead/peer reviews 3 endpoints (REST naming, status codes, versioning, validation, uniform response)\nHow to decide: Average checklist items met, as above (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Unit test coverage(Test cases, Integration Testing)",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Automated test coverage on the resource's modules. Evidence: Coverage figure from the test tool; if none, functions with at least one passing test\nHow to decide: Covered / total for the resource's modules: >=95% = 5, >=90% = 4, >=80% = 3, >=70% = 2, else 1"
+      },
+      {
+       "text": "Code review participation",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Reviews peers' code promptly and usefully. Evidence: Count review requests received and answered within 1 working day\nHow to decide: Answered in 1 day / received: >=95% = 5, >=90% = 4, >=80% = 3, >=70% = 2, else 1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Production defects",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Production defects (medium severity or above) traced to the resource's code. Evidence: Bug list, Found in = Production, Owner = resource\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Documentation quality",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: API documentation others can use without asking. Evidence: Lead samples 3 API docs (purpose, request/response samples, error codes, auth, change notes)\nHow to decide: Average checklist items met out of 5, as for code quality (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "UI",
+   "name": "UI Development",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Code quality",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Clean, maintainable front-end code. Evidence: Lead reviews 3 recent merge requests against the 5-item checklist\nHow to decide: Average checklist items met: 5 = all 5 ... 1 = 0-1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "UI fidelity to design",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Screens that match the approved design (spacing, fonts, colours, states). Evidence: Designer or lead compares 10 screens with Figma\nHow to decide: Matching screens / screens checked"
+      },
+      {
+       "text": "Component/unit test coverage",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Automated test coverage on the resource's components. Evidence: Coverage figure from the test tool; else components with a passing test\nHow to decide: Covered / total for the resource's components"
+      },
+      {
+       "text": "Code review participation",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Reviews peers' code promptly and usefully. Evidence: Count review requests received and answered within 1 working day\nHow to decide: Answered in 1 day / received: >=95% = 5, >=90% = 4, >=80% = 3, >=70% = 2, else 1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Production/UI defects",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Production or UAT UI defects traced to the resource's work. Evidence: Bug list, Owner = resource\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Cross-browser & responsive pass",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Screens working on the agreed browsers and screen sizes at first QA pass. Evidence: QA records pass/fail per screen\nHow to decide: Screens passing first time / screens tested"
+      },
+      {
+       "text": "Documentation quality",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Component notes and setup docs others can use. Evidence: Lead samples 3 items\nHow to decide: 5 = usable without asking; 3 = gaps; 1 = missing (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "QA",
+   "name": "QA",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Requirement coverage by test cases",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Requirement items that have at least one written test case. Evidence: Compare CA requirement list with test case sheet\nHow to decide: Requirement items with test cases / total requirement items"
+      },
+      {
+       "text": "Defect detection effectiveness",
+       "weight": 0.07,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Share of all defects caught by QA before release. Evidence: Bug list, Found-in column (QA/UAT vs Production)\nHow to decide: Defects found by QA / (found by QA + found in production)"
+      },
+      {
+       "text": "Defects leaked to production",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Defects in released modules the tester signed off. Evidence: Bug list, Found in = Production, Tester = resource\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Bug report quality",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Bug reports reproducible without asking the tester (steps, evidence, expected vs actual). Evidence: Developers mark a bug 'needs info' when unclear\nHow to decide: Bugs accepted without clarification / bugs raised"
+      },
+      {
+       "text": "Test cycle completed on schedule",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Planned test cycles finished by planned date. Evidence: Lead's knowledge of the period's Testing tasks\nHow to decide: Share of Testing tasks finished by the agreed (or re-agreed) date"
+      },
+      {
+       "text": "Regression & retest completion",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Fixed bugs retested and regression suite run before release. Evidence: Release checklist ticked by tester\nHow to decide: Retests and regression runs done / required"
+      },
+      {
+       "text": "Test documentation quality",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Test cases and reports others can reuse. Evidence: Lead samples 3 test case sets and 1 report\nHow to decide: 5 = clear steps, data and expected result; 3 = gaps; 1 = unusable (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "MOBILE",
+   "name": "Mobile App Development",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Code quality",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Clean, maintainable app code (iOS/Android). Evidence: Lead reviews 3 recent merge requests against the 5-item checklist\nHow to decide: Average checklist items met: 5 = all 5 ... 1 = 0-1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Design fidelity (iOS/Android)",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Screens that match the approved design on both platforms. Evidence: Designer or lead compares 10 screens on device\nHow to decide: Matching screens / screens checked"
+      },
+      {
+       "text": "Unit test coverage",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Automated test coverage on the resource's modules. Evidence: Coverage figure from the test tool; else functions with a passing test\nHow to decide: Covered / total for the resource's modules"
+      },
+      {
+       "text": "Code review participation",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Reviews peers' code promptly and usefully. Evidence: Count review requests received and answered within 1 working day\nHow to decide: Answered in 1 day / received: >=95% = 5, >=90% = 4, >=80% = 3, >=70% = 2, else 1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Crash-free sessions",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 99.5% or more; 7-8 = 99.0% to 99.49%; 5-6 = 98.0% to 98.99%; 3-4 = 97.0% to 97.99%; 1-2 = Below 97%\nEvidence: Stability of released app builds. Evidence: Firebase Crashlytics / Play Console / App Store Connect crash-free rate for the release\nHow to decide: Crash-free % for the release (>=99.5% = 5, >=99% = 4, >=98% = 3, >=97% = 2, else 1)"
+      },
+      {
+       "text": "Production defects",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Production defects traced to the resource's work. Evidence: Bug list, Found in = Production, Owner = resource\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Device & OS compatibility",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Agreed devices and OS versions where the build passes QA. Evidence: QA device matrix\nHow to decide: Device/OS combinations passing / combinations tested"
+      },
+      {
+       "text": "Release builds accepted first time",
+       "weight": 0.02,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Release builds accepted by QA/store without a rebuild. Evidence: Lead's knowledge of release builds\nHow to decide: Builds accepted first time / builds submitted"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "AWS",
+   "name": "AWS",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "System availability",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 99.9% or more; 7-8 = 99.5% to 99.89%; 5-6 = 99.0% to 99.49%; 3-4 = 98.0% to 98.99%; 1-2 = Below 98%\nEvidence: Uptime of production services the resource manages. Evidence: CloudWatch / status-check figures for the period\nHow to decide: Uptime % (>=99.9% = 5, >=99.5% = 4, >=99% = 3, >=98% = 2, else 1)"
+      },
+      {
+       "text": "Incident response within 30 min",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Incidents acknowledged within 30 minutes. Evidence: Simple incident list: raised time, acknowledged time\nHow to decide: Incidents acknowledged within 30 min / incidents raised"
+      },
+      {
+       "text": "Repeat incidents",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Incidents that recurred with the same cause. Evidence: Incident list, tag repeats\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Deployment success rate",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Deployments completed without rollback or hotfix. Evidence: Lead's knowledge of deployments (rollbacks, hotfixes)\nHow to decide: Successful deployments / deployments"
+      },
+      {
+       "text": "Backup restore tests",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Scheduled backup/restore tests actually performed. Evidence: Calendar tick list\nHow to decide: Tests done / tests scheduled"
+      },
+      {
+       "text": "Runbook & infra documentation",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Runbooks and architecture notes others can follow. Evidence: Lead samples 3 runbooks\nHow to decide: 5 = a teammate can act without help; 3 = gaps; 1 = missing (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "AWS cost vs budget",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5% or less; 7-8 = 6% to 10%; 5-6 = 11% to 15%; 3-4 = 16% to 20%; 1-2 = More than 20%\nEvidence: Overspend against the monthly budget set by management. Evidence: AWS billing console vs budget figure\nHow to decide: (Actual - budget) / budget, 0 if under budget: <=5% = 5, <=10% = 4, <=15% = 3, <=20% = 2, >20% = 1"
+      },
+      {
+       "text": "Security hygiene checks",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Monthly access review and patch checks completed. Evidence: Calendar tick list\nHow to decide: Checks done / checks due"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "MARKETING",
+   "name": "Marketing",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Content/campaigns published on schedule",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Planned content or campaign items published by planned date. Evidence: Content calendar and lead's knowledge of campaign deliveries\nHow to decide: Published on time / planned items"
+      },
+      {
+       "text": "Campaign target attainment",
+       "weight": 0.07,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Result against the one primary target the lead sets per campaign (leads, sign-ups, reach). Evidence: Lead sets target before the campaign; result from analytics\nHow to decide: Actual / target (cap at 100% for scoring)"
+      },
+      {
+       "text": "Content quality & brand fit",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Content meets brand and clarity standards. Evidence: Lead reviews 3 items against a short brand checklist\nHow to decide: 5 = no edits needed; 3 = minor edits; 1 = rewrite needed (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      },
+      {
+       "text": "Content accuracy & compliance",
+       "weight": 0.05,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Content approved without a product, clinical or compliance correction. Evidence: Reviewer notes corrections\nHow to decide: Items approved without correction / items reviewed"
+      },
+      {
+       "text": "Engagement vs target",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Engagement (clicks, shares, replies) against the target set for the period. Evidence: Analytics export\nHow to decide: Actual / target (cap at 100%)"
+      },
+      {
+       "text": "Stakeholder request turnaround",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Requests from other teams closed within 3 working days. Evidence: Lead's knowledge of requests from other teams and when they were closed\nHow to decide: Requests closed in 3 days / requests received"
+      },
+      {
+       "text": "Monthly marketing report on time",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Monthly results report to management sent on time. Evidence: Coordinator ticks Yes/No monthly\nHow to decide: Reports on time / months in period"
+      },
+      {
+       "text": "Stakeholder coordination",
+       "weight": 0.02,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Quality of coordination with US stakeholders during the India night shift (timely replies, clear updates, follow-through). Evidence: Stakeholder pulse: ask 2 US stakeholders two questions (were replies timely? were updates clear?) plus the lead's view\nHow to decide: 5 = stakeholders never had to chase, expectations always clear; 4 = minor follow-ups; 3 = occasional chasing; 2 = frequent chasing; 1 = repeated escalations (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "code": "AI",
+   "name": "AI",
+   "roleCategories": [
+    {
+     "name": "Role-specific",
+     "points": {
+      "Junior": 1,
+      "Senior": 1,
+      "Team Lead": 1
+     },
+     "questions": [
+      {
+       "text": "Model performance vs agreed target",
+       "weight": 0.06,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Model result against the target agreed with the lead (accuracy, F1 or other agreed measure). Evidence: Evaluation sheet per model, target recorded before the work\nHow to decide: Achieved / target (cap at 100%)"
+      },
+      {
+       "text": "Experiment/POC delivered on schedule",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Experiments or POCs finished by planned date. Evidence: Lead's knowledge of experiments/POCs against planned dates\nHow to decide: Share of experiments/POCs finished by the agreed (or re-agreed) date"
+      },
+      {
+       "text": "Data validation before training",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Datasets that passed the validation checklist (missing values, duplicates, label check, PHI removed) before use. Evidence: Lead samples datasets\nHow to decide: Datasets passing / datasets used"
+      },
+      {
+       "text": "Integration accepted first time",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Model integrations accepted by API/Mobile team without rework. Evidence: Receiving team confirms\nHow to decide: Integrations accepted first time / integrations delivered"
+      },
+      {
+       "text": "Production incidents from model",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = None (0); 7-8 = 1 time; 5-6 = 2 times; 3-4 = 3 times; 1-2 = 4 or more times\nEvidence: Incidents caused by wrong or unsafe model output, drift or downtime. Evidence: Incident list, Cause = Model\nHow to decide: Count: 0 = 5, 1 = 4, 2 = 3, 3 = 2, 4+ = 1"
+      },
+      {
+       "text": "Model documentation",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Models with a model card (data source, limits, metrics, version). Evidence: Lead checks the card exists and is current\nHow to decide: Models with current card / models released"
+      },
+      {
+       "text": "Privacy & bias checklist completion",
+       "weight": 0.04,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 95% or more; 7-8 = 90% to 94%; 5-6 = 80% to 89%; 3-4 = 70% to 79%; 1-2 = Below 70%\nEvidence: Models released after the privacy (PHI) and bias checklist. Evidence: Checklist copy kept per model\nHow to decide: Models with completed checklist / models released"
+      },
+      {
+       "text": "Code quality",
+       "weight": 0.03,
+       "reviewedBy": "TL_MANAGER_ONLY",
+       "guidance": "Scale: 9-10 = 5 - Outstanding; 7-8 = 4 - Strong; 5-6 = 3 - Meets expectations; 3-4 = 2 - Below expectations; 1-2 = 1 - Unacceptable\nEvidence: Clean, reproducible code and notebooks. Evidence: Lead reviews 3 items against the 5-item checklist\nHow to decide: Average checklist items met: 5 = all 5 ... 1 = 0-1 (Anchors written on the old 1-5 scale map as 5 = 9-10, 4 = 7-8, 3 = 5-6, 2 = 3-4, 1 = 1-2.)"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "commonCategories": [
+  {
+   "name": "Adheres to company policies and processes (applicable to all teams)",
+   "points": {
+    "Junior": 4,
+    "Senior": 4,
+    "Team Lead": 4
+   },
+   "questions": [
+    {
+     "text": "How often does the employee treat all colleagues with respect and professionalism?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee behave professionally in meetings (with video on)?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee follow the company's reporting and management hierarchy?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee use company assets and resources responsibly?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Communication Standards",
+   "points": {
+    "Junior": 3,
+    "Senior": 3,
+    "Team Lead": 3
+   },
+   "questions": [
+    {
+     "text": "How often does the employee use official email for formal communication?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee reply to official communications within a reasonable time?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee submit weekly reports on time?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Leave Management",
+   "points": {
+    "Junior": 3,
+    "Senior": 3,
+    "Team Lead": 3
+   },
+   "questions": [
+    {
+     "text": "How often does the employee inform the team promptly about planned absences?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee inform the team promptly about unplanned absences?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee get prior approval for leave by email?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee avoid frequent leave requests right before or after weekends?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee keep leave records in Trackabi accurate?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Workplace Discipline & Hygiene Management",
+   "points": {
+    "Junior": 2,
+    "Senior": 2,
+    "Team Lead": 2
+   },
+   "questions": [
+    {
+     "text": "How often does the employee return to work on time after lunch?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee follow the food rules at their workstation?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee keep their workspace clean and organised?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Team level",
+   "points": {
+    "Junior": 6,
+    "Senior": 7,
+    "Team Lead": 6
+   },
+   "questions": [
+    {
+     "text": "How often does the employee suggest solutions to problems on their own?",
+     "weight": 0.34,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee make informed decisions?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee suggest ideas to improve processes and workflows?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee collaborate with team members?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee collaborate with cross-functional teams?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee take part in knowledge-sharing activities?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee take part in meetings with enthusiasm and useful input?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee respond to feedback?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee give constructive feedback to others?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Team lead level",
+   "points": {
+    "Junior": 0,
+    "Senior": 0,
+    "Team Lead": 14
+   },
+   "questions": [
+    {
+     "text": "How often does the employee give team members timely support?",
+     "weight": 0.34,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee give team members timely coaching?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee give team members timely feedback?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How early does the employee identify project risks?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee act to reduce project risks?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee mentor team members?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee share knowledge with the team?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee drive improvements to processes?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee improve operational efficiency?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee handle escalations?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee handle conflicts professionally?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee keep team morale and engagement high?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  },
+  {
+   "name": "Individual resource level",
+   "points": {
+    "Junior": 22,
+    "Senior": 21,
+    "Team Lead": 8
+   },
+   "questions": [
+    {
+     "text": "How often does the employee take ownership of their work?",
+     "weight": 0.34,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How reliable is the employee in delivering their work?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee complete work independently with minimal supervision?",
+     "weight": 0.33,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee accept responsibility for their mistakes?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee focus on solutions rather than blaming others?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee meet committed deadlines?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How early does the employee raise risks, delays and blockers?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee ask relevant questions through the right communication channels?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee take on additional responsibilities when needed?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee go beyond assigned tasks when needed?",
+     "weight": 0.5,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How calmly and professionally does the employee handle pressure?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How well does the employee adapt to changing priorities and business needs?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee produce work that needs little rework or correction?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee keep stakeholders informed with timely status updates?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How willing is the employee to learn and adapt to new processes, tools and technologies?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee go above and beyond to complete their work?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    },
+    {
+     "text": "How often does the employee volunteer for additional work when needed?",
+     "weight": 1.0,
+     "reviewedBy": "ALL",
+     "guidance": "Scale: 9-10 = Always / Excellent; 7-8 = Usually / Very good; 5-6 = Sometimes / Good; 3-4 = Rarely / Fair; 1-2 = Never / Poor. Use N/A if not observed.\nEvidence: Behaviour over the whole appraisal period. Self: own view. Peer: a colleague who works with the person. TL: team lead. Manager: direct manager's view.\nHow to decide: Pick the number that best fits the employee over the whole period."
+    }
+   ]
+  }
+ ]
+}
