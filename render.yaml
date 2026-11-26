@@ -1,0 +1,34 @@
+# Render Blueprint: one web service (React + Spring Boot in one Docker image) + PostgreSQL.
+# Render dashboard -> New -> Blueprint -> pick this repository.
+databases:
+  - name: appraisal-db
+    plan: free
+    databaseName: appraisal
+    user: appraisal
+
+services:
+  - type: web
+    name: performance-appraisal
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: DB_HOST
+        fromDatabase: { name: appraisal-db, property: host }
+      - key: DB_PORT
+        fromDatabase: { name: appraisal-db, property: port }
+      - key: DB_NAME
+        fromDatabase: { name: appraisal-db, property: database }
+      - key: DB_USERNAME
+        fromDatabase: { name: appraisal-db, property: user }
+      - key: DB_PASSWORD
+        fromDatabase: { name: appraisal-db, property: password }
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false        # you type it when creating the Blueprint
+      - key: SEED_DEMO_USERS
+        value: "true"      # sample CA users manager / lead / sara / jay (password123); set "false" for real use

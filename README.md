@@ -90,6 +90,19 @@ The app is then at http://localhost:3000. nginx serves the React build and proxi
 
 > The Docker files were written but not built in the environment this was developed in (no Docker daemon there). The backend and frontend themselves were built and tested directly.
 
+## Deploy on Render
+
+`render.yaml` is a Render Blueprint. It creates a PostgreSQL database and one web service built from the root `Dockerfile`, which serves both the React app and the API.
+
+1. Sign in at https://dashboard.render.com, then click **New → Blueprint**.
+2. Connect GitHub and pick this repository and the branch to deploy.
+3. Enter a value for **ADMIN_PASSWORD** when asked, then click **Apply**.
+4. Wait for the first build (about 5–10 minutes), then open the `https://performance-appraisal-xxxx.onrender.com` address shown on the service.
+
+Notes:
+- `SEED_DEMO_USERS` is `"true"` in `render.yaml`, so the sample users `manager`, `lead`, `sara` and `jay` (password `password123`) exist for trying the app. Set it to `"false"` before the first deploy for real use, or deactivate them on the Users page later.
+- On Render's free plan the service sleeps after about 15 minutes idle, so the first visit afterwards takes about a minute. The free database expires after 30 days. Choose paid plans for real use.
+
 ## Tests
 
 Scoring engine unit tests:
