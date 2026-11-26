@@ -101,6 +101,7 @@ The app is then at http://localhost:3000. nginx serves the React build and proxi
 
 Notes:
 - `SEED_DEMO_USERS` is `"true"` in `render.yaml`, so the sample users `manager`, `lead`, `sara` and `jay` (password `password123`) exist for trying the app. Set it to `"false"` before the first deploy for real use, or deactivate them on the Users page later.
+- **Admin can't sign in?** The admin account is created only on the first start, so changing `ADMIN_PASSWORD` later has no effect on its own. To reset it, set `ADMIN_PASSWORD` to the new password and add `ADMIN_PASSWORD_RESET` = `true` under the service's **Environment** tab, then save. Render redeploys. Sign in, then delete `ADMIN_PASSWORD_RESET`. An empty `ADMIN_PASSWORD` falls back to `admin123`.
 - On Render's free plan the service sleeps after about 15 minutes idle, so the first visit afterwards takes about a minute. The free database expires after 30 days. Choose paid plans for real use.
 
 ## Tests

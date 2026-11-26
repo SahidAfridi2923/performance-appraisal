@@ -31,3 +31,4 @@ app:
     admin-username: ${ADMIN_USERNAME:admin}
     admin-password: ${ADMIN_PASSWORD:admin123}
     demo-users: ${SEED_DEMO_USERS:false}
+    admin-password-reset: ${ADMIN_PASSWORD_RESET:false}

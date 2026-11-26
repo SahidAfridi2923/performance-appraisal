@@ -43,6 +43,9 @@ public class DataSeeder implements CommandLineRunner {
     private String adminPassword;
     @Value("${app.seed.demo-users:false}")
     private boolean demoUsers;
+    /** ADMIN_PASSWORD_RESET=true: on startup, set the admin account's password to ADMIN_PASSWORD (recovery). */
+    @Value("${app.seed.admin-password-reset:false}")
+    private boolean resetAdminPassword;
 
     public DataSeeder(TeamRepo teams, LevelRepo levels, CategoryRepo categories, QuestionRepo questions,
                       ScoringSettingsRepo settings, RatingBandRepo bands, ScaleLabelRepo scale, PickListItemRepo pickLists,
@@ -68,16 +71,35 @@ public class DataSeeder implements CommandLineRunner {
                 seed(mapper.readTree(in));
             }
         }
+        String username = adminUsername == null || adminUsername.isBlank() ? "admin" : adminUsername.trim();
+        String password = adminPassword == null ? "" : adminPassword.trim();
+        if (password.isEmpty()) {
+            password = "admin123";
+            log.warn("ADMIN_PASSWORD is empty; using the default 'admin123'. Change it after signing in.");
+        }
         if (users.count() == 0) {
             AppUser admin = new AppUser();
-            admin.setUsername(adminUsername);
+            admin.setUsername(username);
             admin.setFullName("Administrator");
-            admin.setPasswordHash(encoder.encode(adminPassword));
+            admin.setPasswordHash(encoder.encode(password));
             admin.setAppraised(false);
             admin.getRoles().add(Role.ADMIN);
             users.save(admin);
-            log.warn("Created admin user '{}'. Change its password after the first sign-in.", adminUsername);
+            log.warn("Created admin user '{}'. Change its password after the first sign-in.", username);
             if (demoUsers) createDemoUsers();
+        } else if (resetAdminPassword) {
+            AppUser admin = users.findByUsernameIgnoreCase(username).orElseGet(() -> {
+                AppUser u = new AppUser();
+                u.setUsername(username);
+                u.setFullName("Administrator");
+                u.setAppraised(false);
+                return u;
+            });
+            admin.setPasswordHash(encoder.encode(password));
+            admin.setActive(true);
+            admin.getRoles().add(Role.ADMIN);
+            users.save(admin);
+            log.warn("ADMIN_PASSWORD_RESET: password of admin user '{}' was reset from ADMIN_PASSWORD. Remove ADMIN_PASSWORD_RESET now.", username);
         }
     }
 
