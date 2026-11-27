@@ -184,9 +184,21 @@ check(task_for(sara, "Jay Junior")["levelName"] == "Team Lead", "level change on
 save_user(users["jay"], levelId=levels["Junior"])
 check(task_for(sara, "Jay Junior")["levelName"] == "Junior", "changing it back also reaches the open cycle")
 save_user(users["manager"], appraised=True)
-check(task_for(sara, "Maya Manager") is not None, "marking someone appraised adds them to the open cycle")
+check(task_for(sara, "Maya Manager") is None, "marking someone appraised does NOT pull them into an open cycle")
 save_user(users["manager"], appraised=False)
-check(task_for(sara, "Maya Manager") is None, "un-marking removes them again (nothing written for them yet)")
+newbie = call("POST", "/api/admin/users", admin, {"username": "newbie", "fullName": "Nina New", "email": None, "active": True,
+              "appraised": True, "roles": ["EMPLOYEE"], "teamId": users["sara"]["teamId"], "levelId": levels["Junior"],
+              "managedTeamIds": [], "password": "password123"})
+check(task_for(sara, "Nina New") is None, "a user created while a cycle is open stays outside it")
+jay_now0 = next(u for u in call("GET", "/api/admin/users", admin) if u["username"] == "jay")
+save_user(jay_now0, appraised=False)
+check(task_for(sara, "Jay Junior") is not None, "un-ticking appraised does not remove someone already in the cycle")
+save_user(jay_now0, appraised=True)
+c2 = call("POST", "/api/admin/cycles", admin, {"name": "Next cycle"})
+call("POST", f"/api/admin/cycles/{c2['id']}/open", admin)
+check(any(p["fullName"] == "Nina New" for p in call("GET", f"/api/admin/cycles/{c2['id']}/participants", admin)),
+      "a user created before a cycle opens is included automatically")
+call("DELETE", f"/api/admin/cycles/{c2['id']}", admin)
 jay_app = task_for(mgr, "Jay Junior")["appraisalId"]
 lvls = call("GET", f"/api/appraisals/{jay_app}", mgr)["levels"]
 call("PUT", f"/api/appraisals/{jay_app}/level", mgr, {"cycleLevelId": next(l["id"] for l in lvls if l["name"] == "Senior")})

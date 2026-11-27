@@ -111,11 +111,16 @@ function UserModal({ user, teams, levels, onClose, onSaved }) {
         )}
         <div className="checks">
           <label>
-            <input type="checkbox" checked={u.appraised} onChange={(e) => setU({ ...u, appraised: e.target.checked })} /> Is appraised (gets an appraisal when a cycle opens)
+            <input type="checkbox" checked={u.appraised} onChange={(e) => setU({ ...u, appraised: e.target.checked })} /> Is appraised (included automatically when the next cycle opens)
           </label>
           <label>
             <input type="checkbox" checked={u.active} onChange={(e) => setU({ ...u, active: e.target.checked })} /> Active (can sign in)
           </label>
+        </div>
+        <div className="muted small">
+          {u.id
+            ? 'Level and team changes also update any open cycle this person is in. Adding to or removing from an open cycle is done on its Cycles page.'
+            : 'A new person joins the next cycle that opens. To add them to a cycle that is already open, use Cycles → Manage → Add a person.'}
         </div>
         <div className="modal-foot">
           <button type="button" className="btn ghost" onClick={onClose}>

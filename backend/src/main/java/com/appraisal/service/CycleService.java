@@ -191,7 +191,6 @@ public class CycleService {
         Appraisal a = appraisals.findById(appraisalId).filter(x -> x.getCycle().getId().equals(cycleId))
                 .orElseThrow(() -> ApiException.notFound("Appraisal"));
         if (a.getCycle().getStatus() == CycleStatus.CLOSED) throw ApiException.bad("The cycle is closed");
-        setMembership(cycleId, a.getEmployee().getId(), false); // stays out of this cycle until added again
         em.createQuery("delete from Answer x where x.review.id in (select r.id from Review r where r.appraisal.id = :a)").setParameter("a", appraisalId).executeUpdate();
         em.createQuery("delete from Review r where r.appraisal.id = :a").setParameter("a", appraisalId).executeUpdate();
         em.createQuery("delete from Achievement x where x.appraisal.id = :a").setParameter("a", appraisalId).executeUpdate();
@@ -216,46 +215,25 @@ public class CycleService {
     }
 
     /**
-     * Keeps appraisals in OPEN cycles in line with the Users page: level, team and who takes part.
-     * Closed cycles stay frozen. People who should no longer take part are removed only when nothing
-     * was written for them yet (no reviews, achievements or goals); otherwise an admin removes them on
-     * the cycle page. Pass a user id to check one person, or null for everyone.
-     * Returns the number of appraisals changed.
+     * Keeps the level and team of people ALREADY in an OPEN cycle in line with the Users page.
+     * It never adds or removes anyone: who is in a cycle is decided when the cycle opens (everyone
+     * active, appraised and in a team at that moment) and afterwards only by an admin on the cycle page
+     * ("Add a person" / "Remove"). Closed cycles stay frozen.
+     * Pass a user id to check one person, or null for everyone. Returns the number of appraisals changed.
      */
     public int reconcileOpenCycles(Long onlyUserId) {
         int changes = 0;
-        List<AppUser> people = onlyUserId == null ? users.findAll()
-                : users.findById(onlyUserId).map(List::of).orElse(List.of());
         for (Cycle c : cycles.findByStatusInOrderByCreatedAtDesc(List.of(CycleStatus.OPEN))) {
             Map<Long, CycleLevel> levelMap = levelBySource(c.getId());
-            Map<Long, Appraisal> byUser = new HashMap<>();
-            appraisals.findByCycleIdOrderByTeamNameAscEmployeeFullNameAsc(c.getId())
-                    .forEach(a -> byUser.put(a.getEmployee().getId(), a));
-            Map<Long, Boolean> decided = new HashMap<>();
-            memberships.findByCycleId(c.getId()).forEach(m -> decided.put(m.getUserId(), m.isIncluded()));
-            for (AppUser u : people) {
-                Appraisal a = byUser.get(u.getId());
-                // an admin's add / remove for this cycle wins over the "appraised" flag
-                boolean wanted = decided.getOrDefault(u.getId(), u.isAppraised());
-                boolean takesPart = u.isActive() && wanted && u.getTeam() != null;
-                if (a == null) {
-                    if (takesPart) { createAppraisal(c, u, levelMap); changes++; }
-                    continue;
-                }
-                if (!takesPart) {
-                    if (!reviews.existsByAppraisalId(a.getId()) && !achievements.existsByAppraisalId(a.getId())
-                            && !goals.existsByAppraisalId(a.getId())) {
-                        removeParticipant(c.getId(), a.getId());
-                        changes++;
-                    }
-                    continue;
-                }
+            for (Appraisal a : appraisals.findByCycleIdOrderByTeamNameAscEmployeeFullNameAsc(c.getId())) {
+                AppUser u = a.getEmployee();
+                if (onlyUserId != null && !onlyUserId.equals(u.getId())) continue;
                 CycleLevel want = u.getLevel() == null ? null : levelMap.get(u.getLevel().getId());
                 boolean levelKnown = u.getLevel() == null || want != null; // a level created after the cycle opened has no snapshot
                 Long have = a.getLevel() == null ? null : a.getLevel().getId();
                 Long wantId = want == null ? null : want.getId();
                 if (levelKnown && !Objects.equals(have, wantId)) { a.setLevel(want); changes++; }
-                if (!a.getTeamId().equals(u.getTeam().getId()) || !a.getTeamName().equals(u.getTeam().getName())) {
+                if (u.getTeam() != null && (!a.getTeamId().equals(u.getTeam().getId()) || !a.getTeamName().equals(u.getTeam().getName()))) {
                     a.setTeamId(u.getTeam().getId());
                     a.setTeamName(u.getTeam().getName());
                     changes++;
