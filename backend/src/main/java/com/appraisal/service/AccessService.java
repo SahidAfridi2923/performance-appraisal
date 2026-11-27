@@ -33,7 +33,7 @@ public class AccessService {
 
     public List<ReviewerRole> eligibleRoles(AppUser u, Appraisal a) {
         List<ReviewerRole> out = new ArrayList<>();
-        if (!u.isActive()) return out;
+        if (!u.isActive() || !a.getEmployee().isActive()) return out;
         if (isSelf(u, a)) {
             out.add(ReviewerRole.SELF);
             return out;
@@ -41,14 +41,21 @@ public class AccessService {
         boolean skipTl = a.getLevel() != null && a.getLevel().isSkipTlReview();
         if (u.hasRole(Role.MANAGER) && u.leadTeamIds().contains(a.getTeamId())) out.add(ReviewerRole.MANAGER);
         if (u.hasRole(Role.TL) && u.leadTeamIds().contains(a.getTeamId()) && !skipTl) out.add(ReviewerRole.TL);
-        if (u.getTeam() != null && u.getTeam().getId().equals(a.getTeamId())) out.add(ReviewerRole.PEER);
+        // a TL / Manager of this person reviews in that role only, so their view is not counted twice
+        if (out.isEmpty() && u.getTeam() != null && u.getTeam().getId().equals(a.getTeamId())) out.add(ReviewerRole.PEER);
         return out;
     }
 
     /** Lead actions on someone else's appraisal. */
     public boolean canLead(AppUser u, Appraisal a) {
         if (isSelf(u, a)) return false;
-        return u.hasRole(Role.ADMIN) || leadsTeam(u, a.getTeamId());
+        if (u.hasRole(Role.ADMIN)) return true;
+        if (!leadsTeam(u, a.getTeamId())) return false;
+        AppUser e = a.getEmployee();
+        // hierarchy: a TL cannot lead another TL or a Manager; a Manager cannot lead another Manager
+        if (e.hasRole(Role.MANAGER)) return false;
+        if (e.hasRole(Role.TL)) return u.hasRole(Role.MANAGER);
+        return true;
     }
 
     /** Scores are visible to admins and the team's leads; employees see their own once the cycle is closed. */

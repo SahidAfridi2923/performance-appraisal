@@ -16,6 +16,7 @@ public class AppraisalService {
     private final AppraisalRepo appraisals;
     private final CycleRepo cycles;
     private final CycleLevelRepo cycleLevels;
+    private final LevelRepo levels;
     private final ReviewRepo reviews;
     private final AnswerRepo answers;
     private final AchievementRepo achievements;
@@ -23,11 +24,12 @@ public class AppraisalService {
     private final AccessService access;
     private final ScoreService scores;
 
-    public AppraisalService(AppraisalRepo appraisals, CycleRepo cycles, CycleLevelRepo cycleLevels, ReviewRepo reviews,
+    public AppraisalService(AppraisalRepo appraisals, CycleRepo cycles, CycleLevelRepo cycleLevels, LevelRepo levels, ReviewRepo reviews,
                             AnswerRepo answers, AchievementRepo achievements, GoalRepo goals, AccessService access, ScoreService scores) {
         this.appraisals = appraisals;
         this.cycles = cycles;
         this.cycleLevels = cycleLevels;
+        this.levels = levels;
         this.reviews = reviews;
         this.answers = answers;
         this.achievements = achievements;
@@ -148,11 +150,14 @@ public class AppraisalService {
         Appraisal a = leadable(id, me);
         if (cycleLevelId == null) {
             a.setLevel(null);
+            a.getEmployee().setLevel(null);
             return;
         }
         CycleLevel l = cycleLevels.findById(cycleLevelId).filter(x -> x.getCycle().getId().equals(a.getCycle().getId()))
                 .orElseThrow(() -> ApiException.notFound("Level"));
         a.setLevel(l);
+        // one source of truth: the person's level on the Users page follows (open cycles read it from there)
+        levels.findById(l.getSourceLevelId()).ifPresent(lv -> a.getEmployee().setLevel(lv));
     }
 
     public void setLeadComments(Long id, String text, AppUser me) {
@@ -249,8 +254,9 @@ public class AppraisalService {
                             .merge(r.getRole(), 1, Integer::sum));
         }
         List<SummaryRowDto> rows = new ArrayList<>();
-        Map<String, List<Double>> teamScores = new LinkedHashMap<>();
-        Map<String, Integer> teamCounts = new LinkedHashMap<>();
+        Map<Long, List<Double>> teamScores = new LinkedHashMap<>();
+        Map<Long, Integer> teamCounts = new LinkedHashMap<>();
+        Map<Long, String> teamNames = new HashMap<>();
         for (Appraisal a : list) {
             var r = scores.score(ctx, a, ans.get(a.getId()));
             rows.add(new SummaryRowDto(a.getId(), a.getTeamName(), a.getEmployee().getFullName(),
@@ -258,14 +264,15 @@ public class AppraisalService {
                     r.commonScore(), r.roleScore(), r.finalScore(), r.rating(),
                     achievements.countByAppraisalIdAndVerifiedTrue(a.getId()), goals.countByAppraisalId(a.getId()),
                     r.selfGapCount(), submittedCounts.getOrDefault(a.getId(), Map.of())));
-            teamCounts.merge(a.getTeamName(), 1, Integer::sum);
-            List<Double> ts = teamScores.computeIfAbsent(a.getTeamName(), k -> new ArrayList<>());
+            teamCounts.merge(a.getTeamId(), 1, Integer::sum);
+            teamNames.put(a.getTeamId(), a.getTeamName());
+            List<Double> ts = teamScores.computeIfAbsent(a.getTeamId(), k -> new ArrayList<>());
             if (r.finalScore() != null) ts.add(r.finalScore());
         }
         List<TeamSummaryDto> teams = teamCounts.entrySet().stream().map(e -> {
             List<Double> ts = teamScores.get(e.getKey());
             Double avg = ts.isEmpty() ? null : ScoringEngine.round2(ts.stream().mapToDouble(Double::doubleValue).average().orElse(0));
-            return new TeamSummaryDto(e.getKey(), e.getValue(), ts.size(), avg);
+            return new TeamSummaryDto(teamNames.get(e.getKey()), e.getValue(), ts.size(), avg);
         }).toList();
         return new SummaryDto(Mapper.cycle(c, list.size()), teams, rows);
     }

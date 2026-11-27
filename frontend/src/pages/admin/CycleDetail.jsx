@@ -83,7 +83,7 @@ export default function CycleDetail() {
   };
   const notIn = useMemo(() => {
     const ids = new Set((participants.data || []).map((p) => p.userId));
-    return (users.data || []).filter((u) => u.active && u.teamId && !ids.has(u.id));
+    return (users.data || []).filter((u) => u.active && u.appraised && u.teamId && !ids.has(u.id));
   }, [participants.data, users.data]);
 
   if (cycles.error) return <Alert>{cycles.error}</Alert>;

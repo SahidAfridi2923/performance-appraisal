@@ -35,13 +35,15 @@ public class CycleService {
     private final RatingBandRepo bands;
     private final AppUserRepo users;
     private final QuestionBankService bank;
+    private final AchievementRepo achievements;
+    private final GoalRepo goals;
     private final EntityManager em;
 
     public CycleService(CycleRepo cycles, CycleLevelRepo cycleLevels, CycleCategoryRepo cycleCategories,
                         CycleQuestionRepo cycleQuestions, CycleRatingBandRepo cycleBands, AppraisalRepo appraisals,
                         ReviewRepo reviews, AnswerRepo answers, LevelRepo levels, CategoryRepo categories,
                         QuestionRepo questions, TeamRepo teams, RatingBandRepo bands, AppUserRepo users,
-                        QuestionBankService bank, EntityManager em) {
+                        QuestionBankService bank, AchievementRepo achievements, GoalRepo goals, EntityManager em) {
         this.cycles = cycles;
         this.cycleLevels = cycleLevels;
         this.cycleCategories = cycleCategories;
@@ -57,6 +59,8 @@ public class CycleService {
         this.bands = bands;
         this.users = users;
         this.bank = bank;
+        this.achievements = achievements;
+        this.goals = goals;
         this.em = em;
     }
 
@@ -155,6 +159,8 @@ public class CycleService {
         if (c.getStatus() != CycleStatus.OPEN) throw ApiException.bad("People can be added only while the cycle is open");
         AppUser u = users.findById(userId).orElseThrow(() -> ApiException.notFound("User"));
         if (u.getTeam() == null) throw ApiException.bad(u.getFullName() + " has no team; set one on the Users page first");
+        if (!u.isActive() || !u.isAppraised())
+            throw ApiException.bad(u.getFullName() + " is not marked as appraised (or is inactive). Change that on the Users page; they are then added automatically.");
         if (appraisals.findByCycleIdAndEmployeeId(cycleId, userId).isPresent()) throw ApiException.conflict(u.getFullName() + " is already in this cycle");
         Appraisal a = createAppraisal(c, u, levelBySource(cycleId));
         return new ParticipantDto(a.getId(), u.getId(), u.getFullName(), a.getTeamName(), a.getLevel() == null ? null : a.getLevel().getName(), Map.of(), Map.of());
@@ -185,6 +191,52 @@ public class CycleService {
         Map<Long, CycleLevel> m = new HashMap<>();
         cycleLevels.findByCycleIdOrderBySortOrderAsc(cycleId).forEach(l -> m.put(l.getSourceLevelId(), l));
         return m;
+    }
+
+    /**
+     * Keeps appraisals in OPEN cycles in line with the Users page: level, team and who takes part.
+     * Closed cycles stay frozen. People who should no longer take part are removed only when nothing
+     * was written for them yet (no reviews, achievements or goals); otherwise an admin removes them on
+     * the cycle page. Pass a user id to check one person, or null for everyone.
+     * Returns the number of appraisals changed.
+     */
+    public int reconcileOpenCycles(Long onlyUserId) {
+        int changes = 0;
+        List<AppUser> people = onlyUserId == null ? users.findAll()
+                : users.findById(onlyUserId).map(List::of).orElse(List.of());
+        for (Cycle c : cycles.findByStatusInOrderByCreatedAtDesc(List.of(CycleStatus.OPEN))) {
+            Map<Long, CycleLevel> levelMap = levelBySource(c.getId());
+            Map<Long, Appraisal> byUser = new HashMap<>();
+            appraisals.findByCycleIdOrderByTeamNameAscEmployeeFullNameAsc(c.getId())
+                    .forEach(a -> byUser.put(a.getEmployee().getId(), a));
+            for (AppUser u : people) {
+                Appraisal a = byUser.get(u.getId());
+                boolean takesPart = u.isActive() && u.isAppraised() && u.getTeam() != null;
+                if (a == null) {
+                    if (takesPart) { createAppraisal(c, u, levelMap); changes++; }
+                    continue;
+                }
+                if (!takesPart) {
+                    if (!reviews.existsByAppraisalId(a.getId()) && !achievements.existsByAppraisalId(a.getId())
+                            && !goals.existsByAppraisalId(a.getId())) {
+                        removeParticipant(c.getId(), a.getId());
+                        changes++;
+                    }
+                    continue;
+                }
+                CycleLevel want = u.getLevel() == null ? null : levelMap.get(u.getLevel().getId());
+                boolean levelKnown = u.getLevel() == null || want != null; // a level created after the cycle opened has no snapshot
+                Long have = a.getLevel() == null ? null : a.getLevel().getId();
+                Long wantId = want == null ? null : want.getId();
+                if (levelKnown && !Objects.equals(have, wantId)) { a.setLevel(want); changes++; }
+                if (!a.getTeamId().equals(u.getTeam().getId()) || !a.getTeamName().equals(u.getTeam().getName())) {
+                    a.setTeamId(u.getTeam().getId());
+                    a.setTeamName(u.getTeam().getName());
+                    changes++;
+                }
+            }
+        }
+        return changes;
     }
 
     // ------------------------------------------------------------------ reviews (admin)
@@ -255,8 +307,8 @@ public class CycleService {
 
         // levels: add / update (never removed, appraisals point at them)
         Map<Long, CycleLevel> levelMap = levelBySource(c.getId());
+        // every level is copied (inactive ones too) so nobody's level turns into "Not set"
         for (Level l : levels.findAllByOrderBySortOrderAsc()) {
-            if (!l.isActive()) continue;
             CycleLevel cl = levelMap.get(l.getId());
             if (cl == null) {
                 cl = new CycleLevel();
@@ -273,6 +325,8 @@ public class CycleService {
         // categories
         Set<Long> activeTeams = new HashSet<>();
         teams.findAll().stream().filter(Team::isActive).forEach(t -> activeTeams.add(t.getId()));
+        // keep role questions of a deactivated team while people of that team are still in this cycle
+        appraisals.findByCycleIdOrderByTeamNameAscEmployeeFullNameAsc(c.getId()).forEach(a -> activeTeams.add(a.getTeamId()));
         List<Category> wanted = categories.findAll().stream()
                 .filter(Category::isActive)
                 .filter(cat -> cat.getBlock() == Block.COMMON || (cat.getTeam() != null && activeTeams.contains(cat.getTeam().getId())))

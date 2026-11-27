@@ -119,7 +119,7 @@ public class QuestionBankService {
         Team t = teams.findById(id).orElseThrow(() -> ApiException.notFound("Team"));
         List<Category> cats = categories.findByBlockAndTeamIdOrderBySortOrderAsc(Block.ROLE, id);
         boolean hasQuestions = cats.stream().anyMatch(c -> questions.countByCategoryId(c.getId()) > 0);
-        if (users.countByTeamId(id) == 0 && !hasQuestions) {
+        if (users.countByTeamId(id) == 0 && users.countByManagedTeams_Id(id) == 0 && !hasQuestions) {
             categories.deleteAll(cats);
             teams.delete(t);
             return true;

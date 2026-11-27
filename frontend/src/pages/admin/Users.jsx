@@ -76,11 +76,14 @@ function UserModal({ user, teams, levels, onClose, onSaved }) {
             Level
             <select value={u.levelId || ''} onChange={(e) => setU({ ...u, levelId: e.target.value })}>
               <option value="">– none –</option>
-              {levels.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.name}
-                </option>
-              ))}
+              {levels
+                .filter((l) => l.active || l.id === u.levelId)
+                .map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.name}
+                    {l.active ? '' : ' (inactive)'}
+                  </option>
+                ))}
             </select>
           </label>
         </div>
@@ -210,7 +213,7 @@ export default function Users() {
         <UserModal
           user={modal}
           teams={teams}
-          levels={levels.filter((l) => l.active)}
+          levels={levels}
           onClose={() => setModal(null)}
           onSaved={() => {
             setModal(null);

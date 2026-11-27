@@ -53,7 +53,12 @@ public class UserService {
         return users.findAllByOrderByFullNameAsc().stream().map(Mapper::user).toList();
     }
 
-    public UserDto save(Long id, UserSaveRequest req) {
+    public UserDto save(Long id, UserSaveRequest req, AppUser actor) {
+        if (actor != null && actor.getId().equals(id)) {
+            if (!req.active()) throw ApiException.bad("You cannot deactivate your own account");
+            if (!req.roles().contains(com.appraisal.domain.Enums.Role.ADMIN))
+                throw ApiException.bad("You cannot remove your own Admin role; ask another admin");
+        }
         AppUser u = id == null ? new AppUser() : users.findById(id).orElseThrow(() -> ApiException.notFound("User"));
         users.findByUsernameIgnoreCase(req.username().trim()).filter(o -> !o.getId().equals(id))
                 .ifPresent(o -> { throw ApiException.conflict("Username '" + req.username() + "' is taken"); });

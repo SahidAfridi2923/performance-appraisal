@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useApi } from '../hooks';
 import { useCyclePicker } from '../components/CyclePicker';
-import { Alert, Loading, Rating, ScoreStatus } from '../components/ui';
+import { Alert, Loading, PageHead, Rating, ScoreStatus } from '../components/ui';
 import { fmt, ROLE_LABEL, ROLE_ORDER } from '../format';
+import Avatar from '../components/Avatar';
 
 export default function Summary() {
   const { cycleId, picker, error: cErr } = useCyclePicker();
@@ -30,52 +31,39 @@ export default function Summary() {
 
   return (
     <div>
-      <div className="page-head">
-        <div>
-          <h1>Appraisal summary</h1>
-          <div className="muted">Scores are out of 10. Compare scores within the same level.</div>
-        </div>
+      <PageHead title="Summary" sub="Scores are out of 10. Compare people within the same level, not a Junior against a Team Lead.">
         {picker}
-      </div>
+      </PageHead>
       <Alert>{cErr || error}</Alert>
       {loading && <Loading />}
       {data && (
         <>
-          <div className="card">
-            <div className="card-head">
-              <h3>Teams</h3>
-            </div>
-            <div className="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Team</th>
-                    <th className="num">People</th>
-                    <th className="num">Scored</th>
-                    <th className="num">Team average</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.teams.map((t) => (
-                    <tr key={t.teamName}>
-                      <td>
-                        <button className="link" onClick={() => setTeam(team === t.teamName ? '' : t.teamName)}>
-                          {t.teamName}
-                        </button>
-                        {outliers.has(t.teamName) && (
-                          <span className="pill warn" style={{ marginLeft: 8 }} title="About 2 points away from the other teams; discuss with the lead before sharing results">
-                            check before sharing
-                          </span>
-                        )}
-                      </td>
-                      <td className="num">{t.resources}</td>
-                      <td className="num">{t.scored}</td>
-                      <td className="num">{fmt(t.average)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="team-grid">
+            {data.teams.map((t) => (
+              <button key={t.teamName} type="button" className={`team-card ${team === t.teamName ? 'active' : ''}`} onClick={() => setTeam(team === t.teamName ? '' : t.teamName)} aria-pressed={team === t.teamName}>
+                <div className="row between">
+                  <span className="t">{t.teamName}</span>
+                  {outliers.has(t.teamName) && (
+                    <span className="pill accent" title="About 2 points away from the other teams; discuss with the lead before sharing results">
+                      Check
+                    </span>
+                  )}
+                </div>
+                <div className="avg">
+                  {fmt(t.average)}
+                  <span className="muted" style={{ fontSize: 14, fontWeight: 500 }}>
+                    {' '}
+                    avg
+                  </span>
+                </div>
+                <div className="muted small">
+                  {t.scored} of {t.resources} scored
+                </div>
+                <div className="bar">
+                  <div style={{ width: `${t.resources ? (t.scored / t.resources) * 100 : 0}%` }} />
+                </div>
+              </button>
+            ))}
           </div>
 
           <div className="card">
@@ -100,7 +88,6 @@ export default function Summary() {
               <table>
                 <thead>
                   <tr>
-                    <th>Team</th>
                     <th>Resource</th>
                     <th>Level</th>
                     <th className="num">TL/Mgr answers</th>
@@ -116,16 +103,23 @@ export default function Summary() {
                 <tbody>
                   {rows.length === 0 && (
                     <tr>
-                      <td colSpan={11} className="muted">
+                      <td colSpan={10} className="muted">
                         Nobody to show.
                       </td>
                     </tr>
                   )}
                   {rows.map((r) => (
                     <tr key={r.appraisalId}>
-                      <td>{r.teamName}</td>
                       <td>
-                        <Link to={`/appraisals/${r.appraisalId}`}>{r.employeeName}</Link>
+                        <Link to={`/appraisals/${r.appraisalId}`} className="person" style={{ textDecoration: 'none' }}>
+                          <Avatar name={r.employeeName} />
+                          <span>
+                            <span className="name" style={{ display: 'block' }}>
+                              {r.employeeName}
+                            </span>
+                            <span className="meta">{r.teamName}</span>
+                          </span>
+                        </Link>
                         {r.selfGapCount > 2 && (
                           <div className="muted small" title="Self vs TL/Manager differ by 3+ on several questions">
                             self-rating gap on {r.selfGapCount}
@@ -136,12 +130,16 @@ export default function Summary() {
                       <td className="num">
                         {r.leadAnswered} of {r.needed}
                       </td>
-                      <td className="small nowrap">
-                        {ROLE_ORDER.map((role) => `${ROLE_LABEL[role]} ${r.submittedReviews[role] || 0}`).join(' · ')}
+                      <td className="small">
+                        {ROLE_ORDER.map((role) => (
+                          <span key={role} className="nowrap" style={{ marginRight: 8 }}>
+                            {ROLE_LABEL[role]} <strong>{r.submittedReviews[role] || 0}</strong>
+                          </span>
+                        ))}
                       </td>
                       <td className="num">{fmt(r.commonScore)}</td>
                       <td className="num">{fmt(r.roleScore)}</td>
-                      <td className="num">{r.finalScore !== null ? <strong>{fmt(r.finalScore)}</strong> : <ScoreStatus status={r.status} />}</td>
+                      <td className="num">{r.finalScore !== null ? <strong>{fmt(r.finalScore)}</strong> : <ScoreStatus status={r.status} short />}</td>
                       <td>
                         <Rating rating={r.rating} />
                       </td>

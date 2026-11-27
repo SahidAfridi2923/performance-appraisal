@@ -106,7 +106,8 @@ public class ReviewService {
             if (!fq.isEmpty()) cats.add(new FormCategoryDto(c.getId(), c.getName(), c.getBlock(), fq));
         }
         boolean editable = a.getCycle().getStatus() == CycleStatus.OPEN && a.getLevel() != null
-                && rv.map(r -> r.getStatus() == ReviewStatus.DRAFT).orElse(true);
+                && rv.map(r -> r.getStatus() == ReviewStatus.DRAFT).orElse(true)
+                && access.eligibleRoles(me, a).contains(role);
         return new ReviewFormDto(a.getId(), rv.map(Review::getId).orElse(null), a.getEmployee().getFullName(), a.getTeamName(),
                 a.getLevel() == null ? null : a.getLevel().getName(), role, rv.map(Review::getStatus).orElse(null),
                 a.getCycle().getStatus(), editable, isLead(role), cats);
@@ -120,7 +121,10 @@ public class ReviewService {
     public ReviewFormDto save(Long appraisalId, ReviewerRole role, AppUser me, SaveAnswersRequest req, boolean submit) {
         Appraisal a = appraisal(appraisalId);
         Optional<Review> existing = reviews.findByAppraisalIdAndReviewerIdAndRole(appraisalId, me.getId(), role);
-        checkEligible(me, a, role, existing);
+        // writing always needs current access (an old draft stays readable, see form())
+        if (!access.eligibleRoles(me, a).contains(role))
+            throw ApiException.forbidden("You can no longer review " + a.getEmployee().getFullName() + " as " + role
+                    + " (level, team or role changed). Ask an admin if this is wrong.");
         if (a.getCycle().getStatus() != CycleStatus.OPEN) throw ApiException.bad("The cycle is not open");
         if (a.getLevel() == null) throw ApiException.bad("The employee's level is not set yet. Ask the TL or Manager to set it.");
         if (existing.isPresent() && existing.get().getStatus() == ReviewStatus.SUBMITTED)

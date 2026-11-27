@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public interface ReviewRepo extends JpaRepository<Review, Long> {
     List<Review> findByAppraisalId(Long appraisalId);
+    boolean existsByAppraisalId(Long appraisalId);
     Optional<Review> findByAppraisalIdAndReviewerIdAndRole(Long appraisalId, Long reviewerId, Enums.ReviewerRole role);
 
     @Query("select r from Review r where r.appraisal.cycle.id = :cycleId")

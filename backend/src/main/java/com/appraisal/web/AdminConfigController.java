@@ -2,6 +2,7 @@ package com.appraisal.web;
 
 import com.appraisal.domain.Enums.PickListType;
 import com.appraisal.dto.Dtos.*;
+import com.appraisal.service.CycleService;
 import com.appraisal.service.Mapper;
 import com.appraisal.service.QuestionBankService;
 import jakarta.validation.Valid;
@@ -15,9 +16,11 @@ import java.util.Map;
 @RequestMapping("/api/admin")
 public class AdminConfigController {
     private final QuestionBankService bank;
+    private final CycleService cycles;
 
-    public AdminConfigController(QuestionBankService bank) {
+    public AdminConfigController(QuestionBankService bank, CycleService cycles) {
         this.bank = bank;
+        this.cycles = cycles;
     }
 
     @GetMapping("/question-bank")
@@ -33,7 +36,11 @@ public class AdminConfigController {
     public TeamDto createTeam(@Valid @RequestBody TeamDto dto) { return bank.saveTeam(null, dto); }
 
     @PutMapping("/teams/{id}")
-    public TeamDto updateTeam(@PathVariable Long id, @Valid @RequestBody TeamDto dto) { return bank.saveTeam(id, dto); }
+    public TeamDto updateTeam(@PathVariable Long id, @Valid @RequestBody TeamDto dto) {
+        TeamDto t = bank.saveTeam(id, dto);
+        cycles.reconcileOpenCycles(null); // team name shown in open cycles
+        return t;
+    }
 
     @DeleteMapping("/teams/{id}")
     public Map<String, Boolean> deleteTeam(@PathVariable Long id) { return Map.of("deleted", bank.deleteTeam(id)); }

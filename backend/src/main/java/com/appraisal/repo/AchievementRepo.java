@@ -8,4 +8,5 @@ import java.util.List;
 public interface AchievementRepo extends JpaRepository<Achievement, Long> {
     List<Achievement> findByAppraisalIdOrderBySortOrderAscIdAsc(Long appraisalId);
     long countByAppraisalIdAndVerifiedTrue(Long appraisalId);
+    boolean existsByAppraisalId(Long appraisalId);
 }

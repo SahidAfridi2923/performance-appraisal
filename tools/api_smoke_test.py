@@ -47,7 +47,7 @@ for _ in range(30):
     try:
         admin = login("admin", "admin123")
         break
-    except AssertionError:
+    except (AssertionError, urllib.error.URLError):
         time.sleep(1)
 else:
     raise SystemExit("admin login never succeeded - is the backend running on an empty database?")
@@ -164,6 +164,44 @@ check(row["status"] == "SCORED", f"scored again after manager answered the new q
 call("DELETE", f"/api/admin/questions/{newq['id']}", admin)
 call("DELETE", f"/api/admin/questions/{newq['id']}?permanent=true", admin, expect=409)
 check(True, "a question used in a cycle can be archived but not permanently deleted")
+
+print("open cycles follow the Users page")
+users = {u["username"]: u for u in call("GET", "/api/admin/users", admin)}
+levels = {l["name"]: l["id"] for l in call("GET", "/api/admin/levels", admin)}
+
+
+def save_user(u, **changes):
+    body = {**u, **changes, "password": None}
+    return call("PUT", f"/api/admin/users/{u['id']}", admin, body)
+
+
+def task_for(token, name):
+    return next((t for t in call("GET", f"/api/cycles/{cid}/tasks", token)["tasks"] if t["employeeName"] == name), None)
+
+
+save_user(users["jay"], levelId=levels["Team Lead"])
+check(task_for(sara, "Jay Junior")["levelName"] == "Team Lead", "level change on Users page reaches the open cycle")
+save_user(users["jay"], levelId=levels["Junior"])
+check(task_for(sara, "Jay Junior")["levelName"] == "Junior", "changing it back also reaches the open cycle")
+save_user(users["manager"], appraised=True)
+check(task_for(sara, "Maya Manager") is not None, "marking someone appraised adds them to the open cycle")
+save_user(users["manager"], appraised=False)
+check(task_for(sara, "Maya Manager") is None, "un-marking removes them again (nothing written for them yet)")
+jay_app = task_for(mgr, "Jay Junior")["appraisalId"]
+lvls = call("GET", f"/api/appraisals/{jay_app}", mgr)["levels"]
+call("PUT", f"/api/appraisals/{jay_app}/level", mgr, {"cycleLevelId": next(l["id"] for l in lvls if l["name"] == "Senior")})
+jay_now = next(u for u in call("GET", "/api/admin/users", admin) if u["username"] == "jay")
+check(jay_now["levelName"] == "Senior", "level set on the appraisal page also updates the Users page")
+save_user(jay_now, levelId=levels["Junior"])
+
+print("permission rules")
+sara_task = task_for(lead, "Sara Senior")
+check([r["role"] for r in sara_task["roles"]] == ["TL"], "a TL reviews team members only as TL (no extra Peer vote)")
+call("POST", f"/api/admin/cycles/{cid}/participants", admin, {"userId": users["manager"]["id"]}, expect=400)
+check(True, "a person not marked as appraised cannot be added to a cycle by hand")
+me = next(u for u in call("GET", "/api/admin/users", admin) if u["username"] == "admin")
+call("PUT", f"/api/admin/users/{me['id']}", admin, {**me, "roles": ["EMPLOYEE"], "password": None}, expect=400)
+check(True, "an admin cannot remove their own Admin role")
 
 print("close")
 call("POST", f"/api/admin/cycles/{cid}/close", admin)

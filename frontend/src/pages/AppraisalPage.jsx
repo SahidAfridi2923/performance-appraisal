@@ -4,37 +4,61 @@ import { api } from '../api';
 import { useApi } from '../hooks';
 import { Alert, Loading, Rating, ScoreStatus, useAction } from '../components/ui';
 import { date, fmt, ROLE_LABEL, ROLE_ORDER } from '../format';
+import Avatar from '../components/Avatar';
+import Icon from '../components/Icon';
+
+const scoreColor = (v) => (v === null || v === undefined ? 'var(--surface-3)' : v >= 9 ? 'var(--s5)' : v >= 7 ? 'var(--s4)' : v >= 5 ? 'var(--s3)' : v >= 3 ? 'var(--s2)' : 'var(--s1)');
+
+function ScoreRing({ value }) {
+  const r = 62;
+  const c = 2 * Math.PI * r;
+  const frac = value ? Math.max(0, Math.min(1, value / 10)) : 0;
+  return (
+    <div className="ring" role="img" aria-label={value ? `Final score ${fmt(value)} out of 10` : 'No final score yet'}>
+      <svg viewBox="0 0 148 148">
+        <circle cx="74" cy="74" r={r} fill="none" stroke="var(--surface-3)" strokeWidth="12" />
+        <circle cx="74" cy="74" r={r} fill="none" stroke={scoreColor(value)} strokeWidth="12" strokeLinecap="round" strokeDasharray={`${c * frac} ${c}`} />
+      </svg>
+      <div className="center">
+        <div>
+          <div className="big">{value ? fmt(value) : '–'}</div>
+          <div className="of">of 10</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlockRow({ label, value }) {
+  return (
+    <div className="block-row">
+      <span className="muted" style={{ fontWeight: 600 }}>
+        {label}
+      </span>
+      <div className="bar">
+        <div style={{ width: `${value ? value * 10 : 0}%`, background: scoreColor(value) }} />
+      </div>
+      <span className="v">{fmt(value)}</span>
+    </div>
+  );
+}
 
 function ResultSection({ result }) {
   const [open, setOpen] = useState({});
   return (
     <>
-      <div className="tiles">
-        <div className="tile">
-          <div className="label">Final score (of 10)</div>
-          <div className="value">{fmt(result.finalScore)}</div>
-          <ScoreStatus status={result.status} />
-        </div>
-        <div className="tile">
-          <div className="label">Overall rating</div>
-          <div className="value" style={{ fontSize: 16, marginTop: 10 }}>
+      <div className="card score-hero">
+        <ScoreRing value={result.finalScore} />
+        <div className="blocks">
+          <div className="row" style={{ gap: 10 }}>
             <Rating rating={result.rating} />
+            <ScoreStatus status={result.status} />
+            <span className="muted small">
+              TL / Manager answered {result.leadAnswered} of {result.needed}
+            </span>
           </div>
-        </div>
-        <div className="tile">
-          <div className="label">Common competencies</div>
-          <div className="value">{fmt(result.commonScore)}</div>
-        </div>
-        <div className="tile">
-          <div className="label">Role-specific</div>
-          <div className="value">{fmt(result.roleScore)}</div>
-        </div>
-        <div className="tile">
-          <div className="label">TL / Manager answers</div>
-          <div className="value">
-            {result.leadAnswered}
-            <span className="muted" style={{ fontSize: 15 }}> of {result.needed}</span>
-          </div>
+          <BlockRow label="Common competencies" value={result.commonScore} />
+          <BlockRow label="Role-specific" value={result.roleScore} />
         </div>
       </div>
       {result.selfGapCount > 0 && (
@@ -63,14 +87,17 @@ function ResultSection({ result }) {
                   <tr style={{ background: 'var(--surface-2)', cursor: 'pointer' }} onClick={() => setOpen((o) => ({ ...o, [c.id]: !o[c.id] }))}>
                     <td>
                       <strong>
-                        {open[c.id] ? '▾' : '▸'} {c.name}
+                        <span aria-hidden="true" style={{ display: 'inline-block', width: 14, transition: 'transform .18s', transform: open[c.id] ? 'rotate(90deg)' : 'none' }}>
+                          ›
+                        </span>{' '}
+                        {c.name}
                       </strong>{' '}
                       <span className="muted small">{c.block === 'COMMON' ? 'common' : 'role-specific'}</span>
                     </td>
                     <td className="num">{c.points > 0 ? fmt(c.points) : <span className="muted">n/a</span>}</td>
                     <td colSpan={4} />
                     <td className="num">
-                      <strong>{fmt(c.score)}</strong>
+                      <strong style={{ color: c.score ? scoreColor(c.score) : undefined }}>{fmt(c.score)}</strong>
                     </td>
                   </tr>
                   {open[c.id] &&
@@ -80,8 +107,8 @@ function ResultSection({ result }) {
                           <span className="muted">{q.number}.</span> {q.text}
                           {!q.applicable && <span className="muted small"> (does not apply to this level)</span>}
                           {q.leadComments.map((cm, i) => (
-                            <div key={i} className="muted small">
-                              💬 {cm}
+                            <div key={i} className="muted small row" style={{ gap: 6, marginTop: 4 }}>
+                              <Icon name="message" size={13} /> {cm}
                             </div>
                           ))}
                         </td>
@@ -365,31 +392,34 @@ export default function AppraisalPage() {
     <div>
       <div className="page-head">
         <div>
-          <div className="muted small">
-            <Link to="/">← My work</Link>
-          </div>
-          <h1>{a.employee.name}</h1>
-          <div className="muted">
-            {a.teamName} · {a.cycle.name} {a.cycle.status === 'CLOSED' && <span className="pill">closed</span>}
+          <Link className="crumb" to="/">
+            <Icon name="back" size={15} /> My work
+          </Link>
+          <div className="person">
+            <Avatar name={a.employee.name} large />
+            <div>
+              <h1>{a.employee.name}</h1>
+              <div className="sub" style={{ marginTop: 2 }}>
+                {a.teamName} · {a.cycle.name} {a.cycle.status === 'CLOSED' && <span className="pill blue">Closed</span>}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="row">
-          <label className="field">
-            Level
-            {a.canLead && a.editable ? (
-              <select value={a.level?.id || ''} onChange={(e) => setLevel(e.target.value)} disabled={action.busy}>
-                <option value="">– select –</option>
-                {a.levels.map((l) => (
-                  <option key={l.id} value={l.id}>
-                    {l.name}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <span style={{ color: 'var(--text)', fontWeight: 400, fontSize: 14 }}>{a.level?.name || 'Not set'}</span>
-            )}
-          </label>
-        </div>
+        <label className="field">
+          Level
+          {a.canLead && a.editable ? (
+            <select value={a.level?.id || ''} onChange={(e) => setLevel(e.target.value)} disabled={action.busy}>
+              <option value="">– select –</option>
+              {a.levels.map((l) => (
+                <option key={l.id} value={l.id}>
+                  {l.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span style={{ color: 'var(--text)', fontWeight: 500, fontSize: 15 }}>{a.level?.name || 'Not set'}</span>
+          )}
+        </label>
       </div>
       <Alert onClose={() => action.setError(null)}>{action.error}</Alert>
       <Alert kind="ok">{action.notice}</Alert>

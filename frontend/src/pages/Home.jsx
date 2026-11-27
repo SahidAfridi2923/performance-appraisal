@@ -2,19 +2,22 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { useApi } from '../hooks';
 import { useCyclePicker } from '../components/CyclePicker';
-import { Alert, Loading, Rating } from '../components/ui';
+import { Alert, Loading, PageHead, Rating } from '../components/ui';
+import Avatar, { Person } from '../components/Avatar';
+import Icon from '../components/Icon';
 import { fmt, ROLE_LABEL } from '../format';
 
 function RoleButton({ appraisalId, task }) {
   const label = ROLE_LABEL[task.role];
+  const to = `/appraisals/${appraisalId}/review/${task.role}`;
   if (task.status === 'SUBMITTED')
     return (
-      <Link className="btn small ghost" to={`/appraisals/${appraisalId}/review/${task.role}`}>
-        {label} ✓ submitted
+      <Link className="btn small done" to={to}>
+        <Icon name="check" size={15} /> {label}
       </Link>
     );
   return (
-    <Link className={`btn small ${task.status === 'DRAFT' ? 'secondary' : ''}`} to={`/appraisals/${appraisalId}/review/${task.role}`}>
+    <Link className={`btn small ${task.status === 'DRAFT' ? 'secondary' : ''}`} to={to}>
       {task.status === 'DRAFT' ? `Continue ${label}` : `Review as ${label}`}
     </Link>
   );
@@ -28,39 +31,67 @@ export default function Home() {
 
   const myTask = data && data.tasks.find((t) => t.appraisalId === data.myAppraisalId);
   const others = data ? data.tasks.filter((t) => t.appraisalId !== data.myAppraisalId) : [];
-  const pending = others.reduce((n, t) => n + t.roles.filter((r) => r.status !== 'SUBMITTED' && r.role !== 'PEER').length, 0);
+  const all = others.flatMap((t) => t.roles);
+  const leadTodo = all.filter((r) => r.status !== 'SUBMITTED' && r.role !== 'PEER').length;
+  const done = all.filter((r) => r.status === 'SUBMITTED').length;
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  const closed = (mine || []).filter((m) => m.cycle.status === 'CLOSED');
 
   return (
     <div>
-      <div className="page-head">
-        <div>
-          <h1>Hello, {user.fullName.split(' ')[0]}</h1>
-          <div className="muted">Reviews you can give and your own appraisal.</div>
-        </div>
+      <PageHead title={`${greet}, ${user.fullName.split(' ')[0]}`} sub="Your reviews to give and your own appraisal for the selected cycle.">
         {picker}
-      </div>
+      </PageHead>
       <Alert>{cyclesError || error}</Alert>
-      {cycles && cycles.length === 0 && <div className="card card-body muted">No appraisal cycle is open yet.</div>}
+      {cycles && cycles.length === 0 && (
+        <div className="card card-body muted">No appraisal cycle is open yet. Your admin opens one when it is time for reviews.</div>
+      )}
       {loading && <Loading />}
 
-      {data && myTask && (
-        <div className="card">
-          <div className="card-head">
-            <h3>My appraisal · {data.cycle.name}</h3>
-            <span className="muted small">
-              {myTask.teamName} · {myTask.levelName || 'level not set'}
-            </span>
-          </div>
-          <div className="card-body row between">
-            <div className="muted">Rate yourself (optional but recommended) and add your achievements and goals for the period.</div>
-            <div className="row">
-              {myTask.roles.map((r) => (
-                <RoleButton key={r.role} appraisalId={myTask.appraisalId} task={r} />
-              ))}
-              <Link className="btn small secondary" to={`/appraisals/${myTask.appraisalId}`}>
-                Achievements &amp; goals
-              </Link>
+      {data && (
+        <div className="stats">
+          <div className="stat">
+            <div className="label">Cycle</div>
+            <div className="value" style={{ fontSize: 20, marginTop: 8 }}>
+              {data.cycle.name}
             </div>
+            <span className={`pill ${data.cycle.status === 'OPEN' ? 'ok' : 'blue'}`}>{data.cycle.status === 'OPEN' ? 'Open for reviews' : 'Closed'}</span>
+          </div>
+          <div className="stat">
+            <div className="label">TL / Manager reviews to do</div>
+            <div className="value" style={{ color: leadTodo ? 'var(--accent)' : undefined }}>{leadTodo}</div>
+          </div>
+          <div className="stat">
+            <div className="label">Reviews you submitted</div>
+            <div className="value">
+              {done}
+              <small> / {all.length}</small>
+            </div>
+          </div>
+          <div className="stat">
+            <div className="label">People you can review</div>
+            <div className="value">{others.length}</div>
+          </div>
+        </div>
+      )}
+
+      {data && myTask && (
+        <div className="card hero-card">
+          <Avatar name={user.fullName} large />
+          <div>
+            <h3 style={{ fontSize: 17 }}>Your appraisal</h3>
+            <div className="muted">
+              {myTask.teamName} · {myTask.levelName || 'level not set yet'} · rate yourself and record your achievements and goals.
+            </div>
+          </div>
+          <div className="task-actions">
+            {myTask.roles.map((r) => (
+              <RoleButton key={r.role} appraisalId={myTask.appraisalId} task={r} />
+            ))}
+            <Link className="btn small secondary" to={`/appraisals/${myTask.appraisalId}`}>
+              <Icon name="star" size={15} /> Achievements &amp; goals
+            </Link>
           </div>
         </div>
       )}
@@ -69,7 +100,7 @@ export default function Home() {
         <div className="card">
           <div className="card-head">
             <h3>People you can review</h3>
-            {pending > 0 && <span className="pill warn">{pending} TL / Manager review(s) to do</span>}
+            {leadTodo > 0 && <span className="pill accent">{leadTodo} waiting on you</span>}
           </div>
           {others.length === 0 ? (
             <div className="card-body muted">Nobody to review in this cycle.</div>
@@ -79,7 +110,6 @@ export default function Home() {
                 <thead>
                   <tr>
                     <th>Employee</th>
-                    <th>Team</th>
                     <th>Level</th>
                     <th>Your reviews</th>
                     <th />
@@ -88,18 +118,23 @@ export default function Home() {
                 <tbody>
                   {others.map((t) => (
                     <tr key={t.appraisalId}>
-                      <td>{t.employeeName}</td>
-                      <td>{t.teamName}</td>
+                      <td>
+                        <Person name={t.employeeName} meta={t.teamName} />
+                      </td>
                       <td>{t.levelName || <span className="pill warn">Not set</span>}</td>
                       <td>
-                        <div className="row">
+                        <div className="row" style={{ gap: 8 }}>
                           {t.roles.map((r) => (
                             <RoleButton key={r.role} appraisalId={t.appraisalId} task={r} />
                           ))}
                         </div>
                       </td>
                       <td className="right">
-                        {(t.canLead || t.canViewResults) && <Link to={`/appraisals/${t.appraisalId}`}>Open appraisal</Link>}
+                        {(t.canLead || t.canViewResults) && (
+                          <Link className="btn small ghost" to={`/appraisals/${t.appraisalId}`}>
+                            Open
+                          </Link>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -110,7 +145,7 @@ export default function Home() {
         </div>
       )}
 
-      {mine && mine.some((m) => m.cycle.status === 'CLOSED') && (
+      {closed.length > 0 && (
         <div className="card">
           <div className="card-head">
             <h3>My results</h3>
@@ -127,21 +162,21 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {mine
-                  .filter((m) => m.cycle.status === 'CLOSED')
-                  .map((m) => (
-                    <tr key={m.appraisalId}>
-                      <td>{m.cycle.name}</td>
-                      <td>{m.levelName || '–'}</td>
-                      <td className="num">{fmt(m.finalScore)}</td>
-                      <td>
-                        <Rating rating={m.rating} />
-                      </td>
-                      <td className="right">
-                        <Link to={`/appraisals/${m.appraisalId}`}>Details</Link>
-                      </td>
-                    </tr>
-                  ))}
+                {closed.map((m) => (
+                  <tr key={m.appraisalId}>
+                    <td>{m.cycle.name}</td>
+                    <td>{m.levelName || '–'}</td>
+                    <td className="num">
+                      <strong>{fmt(m.finalScore)}</strong>
+                    </td>
+                    <td>
+                      <Rating rating={m.rating} />
+                    </td>
+                    <td className="right">
+                      <Link to={`/appraisals/${m.appraisalId}`}>Details</Link>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

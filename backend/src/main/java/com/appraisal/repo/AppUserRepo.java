@@ -13,4 +13,5 @@ public interface AppUserRepo extends JpaRepository<AppUser, Long> {
     List<AppUser> findByActiveTrueAndAppraisedTrueAndTeamIsNotNull();
     long countByLevelId(Long levelId);
     long countByTeamId(Long teamId);
+    long countByManagedTeams_Id(Long teamId);
 }
