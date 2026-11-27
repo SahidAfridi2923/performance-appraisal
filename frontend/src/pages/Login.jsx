@@ -3,10 +3,6 @@ import { useAuth } from '../auth';
 import { Alert } from '../components/ui';
 import Logo from '../components/Logo';
 
-// bar heights + colours for the 1-10 scale illustration
-const BARS = [18, 26, 34, 42, 52, 60, 70, 80, 90, 100];
-const barColor = (i) => ['#dc2626', '#dc2626', '#ea580c', '#ea580c', '#d97706', '#d97706', '#65a30d', '#65a30d', '#16a34a', '#16a34a'][i];
-
 export default function Login() {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
@@ -29,25 +25,13 @@ export default function Login() {
 
   return (
     <div className="login">
-      <section className="login-art" aria-hidden="true">
-        <div>
-          <h2>Fair reviews, scored the same way for everyone.</h2>
-          <p>Self, peer, team lead and manager reviews combine into one score out of 10, with questions your admins keep up to date.</p>
-        </div>
-        <div className="scale-art">
-          {BARS.map((h, i) => (
-            <div key={i} style={{ height: `${h}%`, background: barColor(i), opacity: 0.35 + i * 0.065 }}>
-              <span>{i + 1}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section className="login-form">
         <form className="login-card stack" onSubmit={submit}>
-          <Logo height={44} />
+          <div className="login-logo">
+            <Logo height={48} />
+          </div>
           <div>
             <h1>Welcome back</h1>
-            <div className="muted">Sign in to HumAppraisal.</div>
+            <div className="muted">Sign in to continue.</div>
           </div>
           <Alert>{error}</Alert>
           <label className="field">
@@ -63,7 +47,6 @@ export default function Login() {
           </button>
           <div className="muted small">Forgot your password? Ask your admin to reset it.</div>
         </form>
-      </section>
     </div>
   );
 }
