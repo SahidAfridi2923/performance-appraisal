@@ -1,21 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="stem" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#4f9fc0"/>
-      <stop offset="0.55" stop-color="#e8705a"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5fb3b2"/>
+      <stop offset="0.5" stop-color="#4f9fc0"/>
       <stop offset="1" stop-color="#2a537c"/>
-    </linearGradient>
-    <linearGradient id="leaf" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0" stop-color="#3f8a58"/>
-      <stop offset="1" stop-color="#6fb381"/>
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="15" fill="#ffffff"/>
-  <!-- the i stem -->
-  <rect x="24" y="27" width="13" height="29" rx="6.5" fill="url(#stem)"/>
-  <!-- the leaf as the dot of the i -->
-  <g transform="translate(23 4) scale(1.15)">
-    <path d="M1 21 C 1 9, 10 1, 23 0 C 23 12, 15 21, 1 21 Z" fill="url(#leaf)"/>
-    <path d="M2.5 19.5 C 8 14, 14 8.5, 20.5 3" fill="none" stroke="#a9d8b4" stroke-width="1.5" stroke-linecap="round"/>
-  </g>
+  <path d="M16 13a4 4 0 0 1 8 0v15h16V13a4 4 0 0 1 8 0v38a4 4 0 0 1-8 0V36H24v15a4 4 0 0 1-8 0z" fill="url(#g)"/>
 </svg>
