@@ -8,7 +8,8 @@ const X0 = 2; // text start
 const BASE = 54; // baseline
 const PRE = 234.9; // width of "HumAppra"
 const I_ADV = 11.73; // advance width of "i"
-const STEM_X = X0 + PRE + 2; // left edge of the i stem
+const GAP = 3; // extra space between "a" and the leaf-i so the i reads as its own letter
+const STEM_X = X0 + PRE + 2 + GAP; // left edge of the i stem
 const STEM_W = 8;
 const STEM_TOP = BASE - 23;
 
@@ -23,9 +24,9 @@ function Leaf({ x, y, scale = 1 }) {
 
 export default function Logo({ height = 30, title = 'HumAppraisal' }) {
   return (
-    <svg className="logo" height={height} viewBox="0 6 314 56" role="img" aria-label={title}>
+    <svg className="logo" height={height} viewBox="0 6 317 56" role="img" aria-label={title}>
       <defs>
-        <linearGradient id="hum-word" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="312" y2="0">
+        <linearGradient id="hum-word" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="315" y2="0">
           <stop offset="0" stopColor="#6cbab8" />
           <stop offset="0.26" stopColor="#4fa7b1" />
           <stop offset="0.46" stopColor="#4f9fc0" />
@@ -44,7 +45,7 @@ export default function Logo({ height = 30, title = 'HumAppraisal' }) {
           HumAppra
         </text>
         <rect x={STEM_X} y={STEM_TOP} width={STEM_W} height={BASE - STEM_TOP + 0.6} rx={STEM_W / 2} />
-        <text x={X0 + PRE + I_ADV} y={BASE}>
+        <text x={X0 + PRE + I_ADV + GAP} y={BASE}>
           sal
         </text>
       </g>
