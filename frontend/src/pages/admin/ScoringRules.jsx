@@ -91,6 +91,7 @@ function BandsCard({ config, reload }) {
         <div className="muted small" style={{ marginBottom: 8 }}>
           A final score gets the band with the highest "from score" not above it (6.9 stays in the band that starts at 5; 7.0 moves to the band that starts at 7).
         </div>
+        <div className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -117,6 +118,7 @@ function BandsCard({ config, reload }) {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

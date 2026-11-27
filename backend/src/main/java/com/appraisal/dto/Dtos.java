@@ -75,7 +75,8 @@ public final class Dtos {
                              int answersRemoved, int categoriesAdded, int categoriesUpdated, int categoriesRemoved,
                              int levelsAdded, boolean settingsChanged, List<String> notes) {}
 
-    public record ParticipantRequest(@NotNull Long userId) {}
+    /** teamId / levelId are optional; when given they update the person (open cycles follow the Users page). */
+    public record ParticipantRequest(@NotNull Long userId, Long teamId, Long levelId) {}
 
     public record ParticipantDto(Long appraisalId, Long userId, String fullName, String teamName, String levelName,
                                  Map<ReviewerRole, Integer> submitted, Map<ReviewerRole, Integer> drafts) {}

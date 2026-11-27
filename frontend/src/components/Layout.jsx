@@ -3,18 +3,13 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth';
 import Icon from './Icon';
 import Avatar from './Avatar';
+import Logo, { LogoMark } from './Logo';
 
 function Brand() {
   return (
-    <div className="brand">
-      <span className="brand-mark">
-        <Icon name="target" size={18} style={{ color: '#fff' }} />
-      </span>
-      <span>
-        Appraisal
-        <small>Performance reviews</small>
-      </span>
-    </div>
+    <NavLink to="/" className="brand" aria-label="HumAppraisal home">
+      <Logo height={34} />
+    </NavLink>
   );
 }
 
@@ -22,7 +17,17 @@ export default function Layout() {
   const { user, logout, hasRole, isLead } = useAuth();
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    setOpen(false);
+    // every new page starts at the top (React Router keeps the old scroll position otherwise)
+    if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [location.pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [open]);
   const admin = hasRole('ADMIN');
   const roleText = user.roles.map((r) => r[0] + r.slice(1).toLowerCase()).join(' · ');
 
@@ -79,7 +84,8 @@ export default function Layout() {
           <button onClick={() => setOpen(true)} aria-label="Open menu">
             <Icon name="menu" />
           </button>
-          <span>Appraisal</span>
+          <LogoMark size={30} />
+          <span className="mobile-title">HumAppraisal</span>
         </div>
         <main className="content">
           <Outlet />

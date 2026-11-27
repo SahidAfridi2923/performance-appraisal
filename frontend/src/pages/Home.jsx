@@ -32,7 +32,8 @@ export default function Home() {
   const myTask = data && data.tasks.find((t) => t.appraisalId === data.myAppraisalId);
   const others = data ? data.tasks.filter((t) => t.appraisalId !== data.myAppraisalId) : [];
   const all = others.flatMap((t) => t.roles);
-  const leadTodo = all.filter((r) => r.status !== 'SUBMITTED' && r.role !== 'PEER').length;
+  const isOpen = data?.cycle.status === 'OPEN';
+  const leadTodo = isOpen ? all.filter((r) => r.status !== 'SUBMITTED' && r.role !== 'PEER').length : 0;
   const done = all.filter((r) => r.status === 'SUBMITTED').length;
   const hour = new Date().getHours();
   const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api';
 import { useApi } from '../hooks';
@@ -44,6 +44,26 @@ export default function ReviewForm() {
   }, [dirty]);
 
   const questions = useMemo(() => (form ? form.categories.flatMap((c) => c.questions) : []), [form]);
+
+  // leaving the page any way (sidebar, back button) keeps unsaved answers as a draft; drafts never count
+  const pending = useRef(null);
+  pending.current = form && form.editable && dirty ? { answers, questions } : null;
+  useEffect(
+    () => () => {
+      const p = pending.current;
+      if (!p) return;
+      const body = {
+        answers: p.questions.map((q) => ({
+          questionId: q.id,
+          value: p.answers[q.id]?.na ? null : p.answers[q.id]?.value ?? null,
+          na: !!p.answers[q.id]?.na,
+          comment: p.answers[q.id]?.comment || null,
+        })),
+      };
+      api.put(`/appraisals/${id}/reviews/${role}`, body).catch(() => {});
+    },
+    [id, role]
+  );
   const answered = questions.filter((q) => answers[q.id] && (answers[q.id].na || answers[q.id].value)).length;
   const scaleLabel = useMemo(() => {
     const m = {};
@@ -81,6 +101,7 @@ export default function ReviewForm() {
     const r = await action.run(() => api.post(`/appraisals/${id}/reviews/${role}/submit`, payload()));
     if (r) {
       setDirty(false);
+      pending.current = null;
       navigate('/', { replace: false });
     }
   };
@@ -99,7 +120,10 @@ export default function ReviewForm() {
     <div>
       <PageHead
         crumb={
-          <Link className="crumb" to="/">
+          <Link
+            className="crumb"
+            to="/"
+          >
             <Icon name="back" size={15} /> My work
           </Link>
         }

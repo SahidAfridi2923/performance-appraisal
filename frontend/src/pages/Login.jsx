@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../auth';
 import { Alert } from '../components/ui';
-import Icon from '../components/Icon';
+import Logo from '../components/Logo';
 
 // bar heights + colours for the 1-10 scale illustration
 const BARS = [18, 26, 34, 42, 52, 60, 70, 80, 90, 100];
@@ -30,14 +30,8 @@ export default function Login() {
   return (
     <div className="login">
       <section className="login-art" aria-hidden="true">
-        <div className="brand" style={{ padding: 0 }}>
-          <span className="brand-mark">
-            <Icon name="target" size={18} style={{ color: '#fff' }} />
-          </span>
-          <span>
-            Appraisal
-            <small>Performance reviews</small>
-          </span>
+        <div className="brand-chip">
+          <Logo height={34} />
         </div>
         <div>
           <h2>Fair reviews, scored the same way for everyone.</h2>
@@ -55,7 +49,7 @@ export default function Login() {
         <form className="login-card stack" onSubmit={submit}>
           <div>
             <h1>Welcome back</h1>
-            <div className="muted">Sign in to your appraisal workspace.</div>
+            <div className="muted">Sign in to HumAppraisal.</div>
           </div>
           <Alert>{error}</Alert>
           <label className="field">

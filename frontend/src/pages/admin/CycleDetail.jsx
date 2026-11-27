@@ -70,6 +70,10 @@ export default function CycleDetail() {
   const participants = useApi(started ? `/admin/cycles/${id}/participants` : null, [started]);
   const reviews = useApi(started ? `/admin/cycles/${id}/reviews` : null, [started]);
   const users = useApi('/admin/users');
+  const teamsApi = useApi('/admin/teams');
+  const levelsApi = useApi('/admin/levels');
+  const [addTeam, setAddTeam] = useState('');
+  const [addLevel, setAddLevel] = useState('');
   const [tab, setTab] = useState('people');
   const [syncOpen, setSyncOpen] = useState(false);
   const [addUser, setAddUser] = useState('');
@@ -83,7 +87,8 @@ export default function CycleDetail() {
   };
   const notIn = useMemo(() => {
     const ids = new Set((participants.data || []).map((p) => p.userId));
-    return (users.data || []).filter((u) => u.active && u.appraised && u.teamId && !ids.has(u.id));
+    // anyone active who is not in the cycle yet, whatever their role
+    return (users.data || []).filter((u) => u.active && !ids.has(u.id));
   }, [participants.data, users.data]);
 
   if (cycles.error) return <Alert>{cycles.error}</Alert>;
@@ -103,15 +108,26 @@ export default function CycleDetail() {
       cycles.reload();
     }
   };
+  const pickUser = (uid) => {
+    setAddUser(uid);
+    const u = (users.data || []).find((x) => String(x.id) === uid);
+    setAddTeam(u?.teamId ? String(u.teamId) : '');
+    setAddLevel(u?.levelId ? String(u.levelId) : '');
+  };
   const add = async () => {
-    if (await action.run(() => api.post(`/admin/cycles/${id}/participants`, { userId: Number(addUser) }), 'Added.')) {
+    const u = (users.data || []).find((x) => String(x.id) === addUser);
+    const body = { userId: Number(addUser), teamId: addTeam ? Number(addTeam) : null, levelId: addLevel ? Number(addLevel) : null };
+    if (await action.run(() => api.post(`/admin/cycles/${id}/participants`, body), `${u?.fullName || 'Person'} added to this cycle.`)) {
       setAddUser('');
+      setAddTeam('');
+      setAddLevel('');
       reloadAll();
+      users.reload();
     }
   };
   const removeParticipant = async (p) => {
     if (!window.confirm(`Remove ${p.fullName} from this cycle? Their reviews, achievements and goals in this cycle are deleted.`)) return;
-    if ((await action.run(() => api.del(`/admin/cycles/${id}/participants/${p.appraisalId}`))) !== undefined) reloadAll();
+    if ((await action.run(() => api.del(`/admin/cycles/${id}/participants/${p.appraisalId}`), `${p.fullName} removed from this cycle.`)) !== undefined) reloadAll();
   };
   const reopenReview = async (r) => {
     if ((await action.run(() => api.post(`/admin/reviews/${r.id}/reopen`), `Review by ${r.reviewerName} reopened as a draft.`)) !== undefined) reviews.reload();
@@ -203,20 +219,48 @@ export default function CycleDetail() {
           {tab === 'people' && (
             <div className="card">
               {cycle.status === 'OPEN' && (
-                <div className="card-head">
-                  <span className="muted small">People who joined after the cycle opened can be added here.</span>
-                  <div className="row">
-                    <select value={addUser} onChange={(e) => setAddUser(e.target.value)} aria-label="User to add">
-                      <option value="">Add a person…</option>
-                      {notIn.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.fullName} ({u.teamName})
-                        </option>
-                      ))}
-                    </select>
-                    <button className="btn small" disabled={!addUser || action.busy} onClick={add}>
-                      Add
+                <div className="card-body" style={{ borderBottom: '1px solid var(--border)' }}>
+                  <div className="row" style={{ alignItems: 'flex-end' }}>
+                    <label className="field grow" style={{ minWidth: 220 }}>
+                      Add a person
+                      <select value={addUser} onChange={(e) => pickUser(e.target.value)}>
+                        <option value="">{notIn.length ? 'Choose someone not in this cycle…' : 'Everyone active is already in this cycle'}</option>
+                        {notIn.map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.fullName} · {u.roles.map((r) => r[0] + r.slice(1).toLowerCase()).join(', ')}
+                            {u.teamName ? ` · ${u.teamName}` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="field" style={{ minWidth: 180 }}>
+                      Team
+                      <select value={addTeam} onChange={(e) => setAddTeam(e.target.value)} disabled={!addUser}>
+                        <option value="">– choose –</option>
+                        {(teamsApi.data || []).filter((t) => t.active).map((t) => (
+                          <option key={t.id} value={t.id}>
+                            {t.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="field" style={{ minWidth: 150 }}>
+                      Level
+                      <select value={addLevel} onChange={(e) => setAddLevel(e.target.value)} disabled={!addUser}>
+                        <option value="">– choose –</option>
+                        {(levelsApi.data || []).filter((l) => l.active).map((l) => (
+                          <option key={l.id} value={l.id}>
+                            {l.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <button className="btn" disabled={!addUser || !addTeam || !addLevel || action.busy} onClick={add}>
+                      Add to cycle
                     </button>
+                  </div>
+                  <div className="muted small" style={{ marginTop: 8 }}>
+                    Anyone active can be added, including Managers and TLs. The team and level are saved on their profile. People you remove stay out of this cycle until you add them again.
                   </div>
                 </div>
               )}

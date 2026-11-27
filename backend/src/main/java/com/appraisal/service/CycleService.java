@@ -37,13 +37,15 @@ public class CycleService {
     private final QuestionBankService bank;
     private final AchievementRepo achievements;
     private final GoalRepo goals;
+    private final CycleMembershipRepo memberships;
     private final EntityManager em;
 
     public CycleService(CycleRepo cycles, CycleLevelRepo cycleLevels, CycleCategoryRepo cycleCategories,
                         CycleQuestionRepo cycleQuestions, CycleRatingBandRepo cycleBands, AppraisalRepo appraisals,
                         ReviewRepo reviews, AnswerRepo answers, LevelRepo levels, CategoryRepo categories,
                         QuestionRepo questions, TeamRepo teams, RatingBandRepo bands, AppUserRepo users,
-                        QuestionBankService bank, AchievementRepo achievements, GoalRepo goals, EntityManager em) {
+                        QuestionBankService bank, AchievementRepo achievements, GoalRepo goals,
+                        CycleMembershipRepo memberships, EntityManager em) {
         this.cycles = cycles;
         this.cycleLevels = cycleLevels;
         this.cycleCategories = cycleCategories;
@@ -61,6 +63,7 @@ public class CycleService {
         this.bank = bank;
         this.achievements = achievements;
         this.goals = goals;
+        this.memberships = memberships;
         this.em = em;
     }
 
@@ -128,6 +131,7 @@ public class CycleService {
         em.createQuery("delete from Achievement x where x.appraisal.id in (select a.id from Appraisal a where a.cycle.id = :c)").setParameter("c", id).executeUpdate();
         em.createQuery("delete from Goal x where x.appraisal.id in (select a.id from Appraisal a where a.cycle.id = :c)").setParameter("c", id).executeUpdate();
         em.createQuery("delete from Appraisal a where a.cycle.id = :c").setParameter("c", id).executeUpdate();
+        em.createQuery("delete from CycleMembership m where m.cycleId = :c").setParameter("c", id).executeUpdate();
         // collection tables first
         for (CycleQuestion q : cycleQuestions.findByCycle(id)) cycleQuestions.delete(q);
         for (CycleCategory cc : cycleCategories.findByCycleIdOrderBySortOrderAsc(id)) cycleCategories.delete(cc);
@@ -154,22 +158,40 @@ public class CycleService {
         }).toList();
     }
 
-    public ParticipantDto addParticipant(Long cycleId, Long userId) {
+    /**
+     * Adds anyone active (any role) to an open cycle. Team and level can be set in the same step; they are saved
+     * on the person, because open cycles follow the Users page. The decision is remembered for this cycle only.
+     */
+    public ParticipantDto addParticipant(Long cycleId, ParticipantRequest req) {
         Cycle c = get(cycleId);
         if (c.getStatus() != CycleStatus.OPEN) throw ApiException.bad("People can be added only while the cycle is open");
-        AppUser u = users.findById(userId).orElseThrow(() -> ApiException.notFound("User"));
-        if (u.getTeam() == null) throw ApiException.bad(u.getFullName() + " has no team; set one on the Users page first");
-        if (!u.isActive() || !u.isAppraised())
-            throw ApiException.bad(u.getFullName() + " is not marked as appraised (or is inactive). Change that on the Users page; they are then added automatically.");
-        if (appraisals.findByCycleIdAndEmployeeId(cycleId, userId).isPresent()) throw ApiException.conflict(u.getFullName() + " is already in this cycle");
+        AppUser u = users.findById(req.userId()).orElseThrow(() -> ApiException.notFound("User"));
+        if (!u.isActive()) throw ApiException.bad(u.getFullName() + " is inactive; activate them on the Users page first");
+        if (req.teamId() != null) u.setTeam(teams.findById(req.teamId()).orElseThrow(() -> ApiException.notFound("Team")));
+        if (req.levelId() != null) u.setLevel(levels.findById(req.levelId()).orElseThrow(() -> ApiException.notFound("Level")));
+        if (u.getTeam() == null) throw ApiException.bad("Choose a team for " + u.getFullName());
+        if (appraisals.findByCycleIdAndEmployeeId(cycleId, u.getId()).isPresent()) throw ApiException.conflict(u.getFullName() + " is already in this cycle");
+        setMembership(cycleId, u.getId(), true);
         Appraisal a = createAppraisal(c, u, levelBySource(cycleId));
         return new ParticipantDto(a.getId(), u.getId(), u.getFullName(), a.getTeamName(), a.getLevel() == null ? null : a.getLevel().getName(), Map.of(), Map.of());
+    }
+
+    private void setMembership(Long cycleId, Long userId, boolean included) {
+        CycleMembership m = memberships.findByCycleIdAndUserId(cycleId, userId).orElseGet(() -> {
+            CycleMembership x = new CycleMembership();
+            x.setCycleId(cycleId);
+            x.setUserId(userId);
+            return x;
+        });
+        m.setIncluded(included);
+        memberships.save(m);
     }
 
     public void removeParticipant(Long cycleId, Long appraisalId) {
         Appraisal a = appraisals.findById(appraisalId).filter(x -> x.getCycle().getId().equals(cycleId))
                 .orElseThrow(() -> ApiException.notFound("Appraisal"));
         if (a.getCycle().getStatus() == CycleStatus.CLOSED) throw ApiException.bad("The cycle is closed");
+        setMembership(cycleId, a.getEmployee().getId(), false); // stays out of this cycle until added again
         em.createQuery("delete from Answer x where x.review.id in (select r.id from Review r where r.appraisal.id = :a)").setParameter("a", appraisalId).executeUpdate();
         em.createQuery("delete from Review r where r.appraisal.id = :a").setParameter("a", appraisalId).executeUpdate();
         em.createQuery("delete from Achievement x where x.appraisal.id = :a").setParameter("a", appraisalId).executeUpdate();
@@ -209,9 +231,13 @@ public class CycleService {
             Map<Long, Appraisal> byUser = new HashMap<>();
             appraisals.findByCycleIdOrderByTeamNameAscEmployeeFullNameAsc(c.getId())
                     .forEach(a -> byUser.put(a.getEmployee().getId(), a));
+            Map<Long, Boolean> decided = new HashMap<>();
+            memberships.findByCycleId(c.getId()).forEach(m -> decided.put(m.getUserId(), m.isIncluded()));
             for (AppUser u : people) {
                 Appraisal a = byUser.get(u.getId());
-                boolean takesPart = u.isActive() && u.isAppraised() && u.getTeam() != null;
+                // an admin's add / remove for this cycle wins over the "appraised" flag
+                boolean wanted = decided.getOrDefault(u.getId(), u.isAppraised());
+                boolean takesPart = u.isActive() && wanted && u.getTeam() != null;
                 if (a == null) {
                     if (takesPart) { createAppraisal(c, u, levelMap); changes++; }
                     continue;

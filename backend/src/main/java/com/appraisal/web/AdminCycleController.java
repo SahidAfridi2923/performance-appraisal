@@ -48,7 +48,7 @@ public class AdminCycleController {
 
     @PostMapping("/cycles/{id}/participants")
     public ParticipantDto addParticipant(@PathVariable Long id, @Valid @RequestBody ParticipantRequest req) {
-        return cycles.addParticipant(id, req.userId());
+        return cycles.addParticipant(id, req);
     }
 
     @DeleteMapping("/cycles/{id}/participants/{appraisalId}")

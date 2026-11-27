@@ -1,4 +1,4 @@
-# Performance Appraisal
+# HumAppraisal
 
 Web version of `Performance_Appraisal_All_Teams.xlsx`. The scoring logic of the **CA** sheet is ported 1:1. Admins can now **add, edit, reorder and remove questions, categories, weights and rating rules at any time**, with no spreadsheet editing.
 
@@ -12,7 +12,7 @@ Web version of `Performance_Appraisal_All_Teams.xlsx`. The scoring logic of the 
 | Question bank | Admin | Common competencies (shared by all teams) and role-specific questions per team. Add, edit, reorder and archive questions, change weights, "Reviewed by" (All / TL-Manager only), the levels each question applies to, and the scoring guide. Add, rename and reorder categories and set their **points per level** (0 = does not apply). |
 | Scoring rules | Admin | Common/Role block weights (40/60), reviewer weights (Self 10 / Peer 20 / TL 30 / Manager 40), rating bands, 1–10 scale meanings, Situation and Business-impact pick lists. |
 | Teams & levels, Users | Admin | All 9 teams and Junior / Senior / Team Lead are seeded from the workbook. Admins can add more. Users have a home team, a level, roles (Employee / TL / Manager / Admin) and optional extra teams they lead. |
-| Cycles | Admin | Draft → **Open** → Closed (can be reopened). Opening **freezes a copy** of the question bank and weights for that cycle. **Sync questions** previews, then pushes later bank edits into an open cycle. Admins can add or remove participants, and reopen or delete individual reviews. |
+| Cycles | Admin | Draft → **Open** → Closed (can be reopened). Opening **freezes a copy** of the question bank and weights for that cycle. **Sync questions** previews, then pushes later bank edits into an open cycle. Open cycles follow the Users page (level, team, who is appraised). Admins can also **add anyone** (any role, choosing team and level) or **remove someone** from one cycle; that choice sticks for that cycle. Admins can reopen or delete individual reviews. |
 | Reviews | Everyone | Self (the employee); Peer (anyone in the same team); TL / Manager (TL or Manager role who leads the team). Answers are 1–10 or N/A, saved as a draft and then submitted (locked). TL/Manager answers of 9–10 or 1–2 need a comment. Team Leads get no TL review; the Manager answers. |
 | Appraisal page | Leads; employee | Scores with a per-question Self/Peer/TL/Manager breakdown, the level picker, lead comments, achievements (lead verifies) and goals. Employees see their own scores only after the cycle closes. |
 | Summary | TL / Manager / Admin | Team averages and the per-person table, like the sheet's Summary, with level filter, "check before sharing" outlier flag and self-rating gap hint. |
