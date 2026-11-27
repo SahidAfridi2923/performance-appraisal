@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth';
 import Icon from './Icon';
 import Avatar from './Avatar';
-import Logo, { LogoMark } from './Logo';
+import Logo from './Logo';
 
 function Brand() {
   return (
@@ -84,8 +84,9 @@ export default function Layout() {
           <button onClick={() => setOpen(true)} aria-label="Open menu">
             <Icon name="menu" />
           </button>
-          <LogoMark size={30} />
-          <span className="mobile-title">HumAppraisal</span>
+          <span className="brand-chip mini">
+            <Logo height={22} />
+          </span>
         </div>
         <main className="content">
           <Outlet />

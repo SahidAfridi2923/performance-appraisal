@@ -66,7 +66,7 @@ a:hover { text-decoration: underline; }
 .brand:hover { text-decoration: none; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15); }
 .brand-chip { display: inline-flex; padding: 12px 16px; background: #ffffff; border-radius: 14px; align-self: flex-start; }
 .logo { display: block; max-width: 100%; height: auto; }
-.mobile-title { font-weight: 800; letter-spacing: -0.01em; }
+.brand-chip.mini { padding: 6px 10px; border-radius: 9px; }
 .brand-mark { width: 32px; height: 32px; border-radius: 9px; background: var(--primary); display: grid; place-items: center; flex: none; }
 .brand small { display: block; font-weight: 500; color: var(--side-muted); font-size: 12px; letter-spacing: 0; }
 .nav-group { margin-top: 10px; }
