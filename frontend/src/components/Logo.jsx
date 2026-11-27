@@ -53,23 +53,3 @@ export default function Logo({ height = 30, title = 'HumAppraisal' }) {
     </svg>
   );
 }
-
-/** Square mark for small spaces (favicon style): an "H" in the brand gradient with the leaf. */
-export function LogoMark({ size = 32 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
-      <defs>
-        <linearGradient id="hum-mark" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#5fb3b2" />
-          <stop offset="0.5" stopColor="#4f9fc0" />
-          <stop offset="1" stopColor="#2a537c" />
-        </linearGradient>
-      </defs>
-      <rect width="64" height="64" rx="16" fill="#ffffff" />
-      <text x="32" y="47" textAnchor="middle" fontFamily={FONT} fontWeight="900" fontSize="40" fill="url(#hum-mark)">
-        H
-      </text>
-      <path d="M40 18 C 40 10, 46 5, 55 4 C 55 12, 50 18, 40 18 Z" fill="#509868" />
-    </svg>
-  );
-}

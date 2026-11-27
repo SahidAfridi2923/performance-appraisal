@@ -181,7 +181,7 @@ input.num { width: 90px; text-align: right; }
 
 /* ---------- login ---------- */
 .login { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
-.login-art { background: var(--side); color: #fff; padding: 48px clamp(28px, 5vw, 72px); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; position: relative; overflow: hidden; }
+.login-art { background: var(--side); color: #fff; padding: 48px clamp(28px, 5vw, 72px); display: flex; flex-direction: column; justify-content: flex-end; gap: 48px; position: relative; overflow: hidden; }
 .login-art h2 { font-size: clamp(32px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -0.03em; margin: 0 0 14px; max-width: 14ch; }
 .login-art p { color: var(--side-text); max-width: 42ch; margin: 0; font-size: 16px; }
 .scale-art { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; align-items: end; height: 220px; max-width: 520px; }
@@ -190,6 +190,7 @@ input.num { width: 90px; text-align: right; }
 .login-form { display: grid; place-items: center; padding: 40px 24px; }
 .login-card { width: 100%; max-width: 380px; }
 .login-card h1 { margin-bottom: 6px; }
+.login-card > .logo { margin-bottom: 18px; }
 .login-card .btn { width: 100%; justify-content: center; padding: 11px 16px; font-size: 15px; }
 
 /* ---------- home ---------- */
@@ -295,6 +296,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 16px; }
   .mobile-bar button { background: none; border: 1px solid #334155; color: #fff; border-radius: 8px; padding: 6px; display: grid; place-items: center; cursor: pointer; }
   .content { padding: 20px 16px 72px; }
   .login { grid-template-columns: minmax(0, 1fr); }
+  .login-form { order: -1; padding-top: 32px; }
   .login-art { padding: 28px 20px 44px; }
   .scale-art { height: 110px; }
   .hero-card { grid-template-columns: auto minmax(0, 1fr); }

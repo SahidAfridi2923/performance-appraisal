@@ -30,9 +30,6 @@ export default function Login() {
   return (
     <div className="login">
       <section className="login-art" aria-hidden="true">
-        <div className="brand-chip">
-          <Logo height={34} />
-        </div>
         <div>
           <h2>Fair reviews, scored the same way for everyone.</h2>
           <p>Self, peer, team lead and manager reviews combine into one score out of 10, with questions your admins keep up to date.</p>
@@ -47,6 +44,7 @@ export default function Login() {
       </section>
       <section className="login-form">
         <form className="login-card stack" onSubmit={submit}>
+          <Logo height={44} />
           <div>
             <h1>Welcome back</h1>
             <div className="muted">Sign in to HumAppraisal.</div>
