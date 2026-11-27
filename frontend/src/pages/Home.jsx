@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { useApi } from '../hooks';
 import { useCyclePicker } from '../components/CyclePicker';
-import { Alert, Loading, PageHead, Rating } from '../components/ui';
+import { Alert, Loading, Rating } from '../components/ui';
 import Avatar, { Person } from '../components/Avatar';
 import Icon from '../components/Icon';
 import { fmt, ROLE_LABEL } from '../format';
@@ -41,9 +41,17 @@ export default function Home() {
 
   return (
     <div>
-      <PageHead title={`${greet}, ${user.fullName.split(' ')[0]}`} sub="Your reviews to give and your own appraisal for the selected cycle.">
-        {picker}
-      </PageHead>
+      <section className="welcome">
+        <div className="welcome-row">
+          <div>
+            <h1>
+              {greet}, {user.fullName.split(' ')[0]}
+            </h1>
+            <div className="sub">Your reviews to give and your own appraisal for the selected cycle.</div>
+          </div>
+          {picker}
+        </div>
+      </section>
       <Alert>{cyclesError || error}</Alert>
       {cycles && cycles.length === 0 && (
         <div className="card card-body muted">No appraisal cycle is open yet. Your admin opens one when it is time for reviews.</div>
@@ -53,17 +61,26 @@ export default function Home() {
       {data && (
         <div className="stats">
           <div className="stat">
+            <span className="chip teal">
+              <Icon name="calendar" size={20} />
+            </span>
             <div className="label">Cycle</div>
-            <div className="value" style={{ fontSize: 20, marginTop: 8 }}>
-              {data.cycle.name}
+            <div className="value" style={{ fontSize: 18 }}>
+              {data.cycle.name}{' '}
+              <span className={`pill ${data.cycle.status === 'OPEN' ? 'ok' : 'blue'}`}>{data.cycle.status === 'OPEN' ? 'Open' : 'Closed'}</span>
             </div>
-            <span className={`pill ${data.cycle.status === 'OPEN' ? 'ok' : 'blue'}`}>{data.cycle.status === 'OPEN' ? 'Open for reviews' : 'Closed'}</span>
           </div>
           <div className="stat">
+            <span className="chip coral">
+              <Icon name="target" size={20} />
+            </span>
             <div className="label">TL / Manager reviews to do</div>
             <div className="value" style={{ color: leadTodo ? 'var(--accent)' : undefined }}>{leadTodo}</div>
           </div>
           <div className="stat">
+            <span className="chip green">
+              <Icon name="check" size={20} />
+            </span>
             <div className="label">Reviews you submitted</div>
             <div className="value">
               {done}
@@ -71,6 +88,9 @@ export default function Home() {
             </div>
           </div>
           <div className="stat">
+            <span className="chip navy">
+              <Icon name="users" size={20} />
+            </span>
             <div className="label">People you can review</div>
             <div className="value">{others.length}</div>
           </div>

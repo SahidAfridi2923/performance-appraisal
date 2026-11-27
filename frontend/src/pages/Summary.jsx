@@ -131,11 +131,13 @@ export default function Summary() {
                         {r.leadAnswered} of {r.needed}
                       </td>
                       <td className="small">
-                        {ROLE_ORDER.map((role) => (
-                          <span key={role} className="nowrap" style={{ marginRight: 8 }}>
-                            {ROLE_LABEL[role]} <strong>{r.submittedReviews[role] || 0}</strong>
-                          </span>
-                        ))}
+                        <div className="mini-grid">
+                          {ROLE_ORDER.map((role) => (
+                            <span key={role} className="nowrap">
+                              {ROLE_LABEL[role]} <strong>{r.submittedReviews[role] || 0}</strong>
+                            </span>
+                          ))}
+                        </div>
                       </td>
                       <td className="num">{fmt(r.commonScore)}</td>
                       <td className="num">{fmt(r.roleScore)}</td>
