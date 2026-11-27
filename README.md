@@ -2,8 +2,50 @@
 
 Web version of `Performance_Appraisal_All_Teams.xlsx`. The scoring logic of the **CA** sheet is ported 1:1. Admins can now **add, edit, reorder and remove questions, categories, weights and rating rules at any time**, with no spreadsheet editing.
 
-- **Backend:** Java 21, Spring Boot 3.4, Spring Security (JWT), JPA, Flyway, PostgreSQL. Located in `backend/`.
-- **Frontend:** React 18 + Vite (JavaScript), React Router. Located in `frontend/`.
+## Tech stack
+
+**Frontend** (`frontend/`)
+
+| Part | Technology |
+|---|---|
+| UI library | React 18.3, plain JavaScript (no TypeScript) |
+| Build / dev server | Vite 5.4 |
+| Routing | React Router 6.28 |
+| Styling | Plain CSS with design tokens (ui-ux-pro-max design system); no UI component library |
+| Fonts | Plus Jakarta Sans (interface), Nunito (logo) from Google Fonts |
+| Icons and logo | Inline SVG, no icon library |
+
+**Backend** (`backend/`)
+
+| Part | Technology |
+|---|---|
+| Language / framework | Java 21, Spring Boot 3.4.5 |
+| Build | Maven |
+| REST API | Spring Web (`/api/...`) |
+| Security | Spring Security, JWT login tokens (jjwt 0.12), BCrypt password hashing |
+| Validation | Jakarta Bean Validation |
+| Data access | Spring Data JPA / Hibernate |
+| Database migrations | Flyway (`db/migration`: V1 schema, V2 per-cycle membership) |
+| Boilerplate | Lombok (entities) |
+
+**Database:** PostgreSQL (Render managed PostgreSQL in production; PostgreSQL 16 locally or in Docker).
+
+**Packaging and hosting**
+
+| Part | Technology |
+|---|---|
+| Container | Root `Dockerfile`, 3 stages: Node 22 builds React → Maven + Temurin 21 builds the jar → Temurin 21 JRE runs it. Spring Boot serves the React build, so the app and API share one address. |
+| Hosting | Render, via the `render.yaml` Blueprint (one web service + one PostgreSQL database), auto-deploying from GitHub |
+| Local containers | `docker-compose.yml`: PostgreSQL, the backend, and nginx serving the frontend |
+
+**Testing and tools**
+
+| Part | Technology |
+|---|---|
+| Unit tests | JUnit 5: scoring engine, including parity with the CA sheet (7.46, Exceeds Expectations) |
+| End-to-end API test | Python, `tools/api_smoke_test.py` |
+| Question bank seed | Python, `tools/extract_seed.py` (rebuilds the seed from the Excel workbook) |
+| Browser checks | Playwright (used during development; not kept in the repo) |
 
 ## What it does
 
