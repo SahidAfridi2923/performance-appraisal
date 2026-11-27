@@ -2,6 +2,8 @@
 
 Web version of `Performance_Appraisal_All_Teams.xlsx`. The scoring logic of the **CA** sheet is ported 1:1. Admins can now **add, edit, reorder and remove questions, categories, weights and rating rules at any time**, with no spreadsheet editing.
 
+> **Taking over or deploying on your own domain?** See [docs/HANDOVER.md](docs/HANDOVER.md).
+
 ## Tech stack
 
 **Frontend** (`frontend/`)
